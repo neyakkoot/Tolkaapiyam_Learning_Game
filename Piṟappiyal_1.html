@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>பிறப்பியல் - PEPSCI சவால் | தொல்காப்பியம்</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #ffe6c7, #fbcb8e);
+            font-family: 'Segoe UI', 'Poppins', 'Noto Sans Tamil', system-ui, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Pepsi vibe game card */
+        .game-card {
+            max-width: 620px;
+            width: 100%;
+            background: #fffbf2;
+            border-radius: 70px 70px 60px 60px;
+            box-shadow: 0 30px 40px rgba(0, 0, 0, 0.25), 0 0 0 10px #ffde59, 0 0 0 14px #e33e2b;
+            overflow: hidden;
+            transition: transform 0.12s ease;
+        }
+
+        .game-card:active {
+            transform: scale(0.99);
+        }
+
+        .header {
+            background: #e33e2b;
+            padding: 22px 22px 18px 28px;
+            color: white;
+            text-shadow: 3px 3px 0 #a52a1a;
+            border-bottom: 5px solid #ffcd4a;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            font-weight: 800;
+        }
+
+        .badge {
+            background: #ffde59;
+            padding: 5px 22px;
+            border-radius: 60px;
+            color: #b12a1a;
+            font-size: 1.2rem;
+            font-weight: bold;
+            box-shadow: inset 0 -2px 0 #c4a123;
+        }
+
+        .sub {
+            font-size: 0.8rem;
+            opacity: 0.92;
+            margin-top: 8px;
+            display: flex;
+            gap: 18px;
+            font-weight: 500;
+        }
+
+        .stats {
+            background: #2b1a10;
+            color: #ffefcf;
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 25px;
+            font-weight: bold;
+            font-size: 1.3rem;
+            border-bottom: 2px solid #f5a623;
+        }
+
+        .score, .streak {
+            background: #00000055;
+            padding: 5px 22px;
+            border-radius: 50px;
+            backdrop-filter: blur(3px);
+        }
+
+        .streak {
+            background: #f77f00;
+            color: #2d1b0f;
+        }
+
+        .game-area {
+            padding: 28px 18px 20px;
+        }
+
+        .question-panel {
+            background: #ffefdb;
+            border-radius: 65px;
+            padding: 28px 12px;
+            text-align: center;
+            box-shadow: inset 0 1px 5px #ffdeae, 0 12px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .tamil-letter {
+            font-size: 5rem;
+            font-weight: 800;
+            font-family: 'Noto Sans Tamil', monospace;
+            background: white;
+            display: inline-block;
+            padding: 12px 35px;
+            border-radius: 100px;
+            box-shadow: 0 9px 0 #b97942;
+            letter-spacing: 6px;
+            color: #392812;
+        }
+
+        .question-hint {
+            font-size: 1rem;
+            margin-top: 18px;
+            background: #ffe2b5;
+            display: inline-block;
+            padding: 6px 20px;
+            border-radius: 40px;
+            font-weight: bold;
+            color: #b64926;
+        }
+
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 14px;
+            margin: 20px 0 10px;
+        }
+
+        .opt-btn {
+            background: #ffd966;
+            border: none;
+            font-size: 1.2rem;
+            font-family: 'Noto Sans Tamil', monospace;
+            font-weight: bold;
+            padding: 10px 16px;
+            min-width: 110px;
+            border-radius: 60px;
+            color: #2f2418;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #b47234;
+            transition: 0.05s linear;
+            text-align: center;
+        }
+
+        .opt-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #b47234;
+        }
+
+        .feedback {
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.15rem;
+            margin: 12px 0;
+            padding: 12px;
+            border-radius: 50px;
+            background: #fff1e0;
+        }
+
+        .next-btn {
+            background: #2e9c5e;
+            color: white;
+            border: none;
+            width: 85%;
+            padding: 14px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border-radius: 50px;
+            margin: 10px auto 8px;
+            display: block;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #1a5a37;
+            transition: 0.05s linear;
+        }
+
+        .next-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #1a5a37;
+        }
+
+        .reset-btn {
+            background: #f28444;
+            box-shadow: 0 6px 0 #bd5727;
+            margin-bottom: 20px;
+            width: 65%;
+        }
+
+        .footer {
+            background: #eddabc;
+            text-align: center;
+            padding: 12px;
+            font-size: 0.7rem;
+            color: #875a2c;
+            border-top: 2px solid #ffcf8a;
+        }
+
+        @keyframes popGlow {
+            0% { transform: scale(1); text-shadow: 0 0 0 gold; }
+            70% { transform: scale(1.12); background: #ffbc6e; box-shadow: 0 0 12px gold; }
+            100% { transform: scale(1); }
+        }
+        .correct-pop {
+            animation: popGlow 0.3s ease;
+        }
+
+        @media (max-width: 520px) {
+            .tamil-letter { font-size: 3rem; padding: 6px 20px; letter-spacing: 3px; }
+            .opt-btn { font-size: 0.95rem; min-width: 80px; padding: 6px 10px; }
+            .stats { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="game-card">
+    <div class="header">
+        <h1>
+            <span class="badge">🔊 பிறப்பியல்</span>
+            <span>⚡ PEPSI கேம்</span>
+        </h1>
+        <div class="sub">📖 தொல்காப்பியம் · எழுத்ததிகாரம் · பிறப்பியல் · ஒலிபிறப்பிடம்</div>
+    </div>
+    <div class="stats">
+        <div class="score">🏆 மதிப்பெண்: <span id="scoreVal">0</span></div>
+        <div class="streak">🔥 தொடர்: <span id="streakVal">0</span></div>
+    </div>
+    <div class="game-area">
+        <div class="question-panel">
+            <div class="tamil-letter" id="questionLetter">அ</div>
+            <div class="question-hint" id="questionHint">எங்கு பிறக்கும்?</div>
+        </div>
+        <div class="options" id="optionsContainer"></div>
+        <div class="feedback" id="feedbackMsg">✨ பதிலைத் தேர்ந்தெடு — ஒலியின் பிறப்பிடத்தை அறி ✨</div>
+        <button class="next-btn" id="nextBtn">➡ அடுத்த எழுத்து</button>
+        <button class="next-btn reset-btn" id="resetBtn">🔄 புதிய ஆட்டம்</button>
+    </div>
+    <div class="footer">
+        🧠 தொல்காப்பியம் பிறப்பியல் (1-21) · உயிர்/மெய் பிறப்பு · நா, அண்ணம், பல், இதழ், மிடறு, மூக்கு · மெல்லெழுத்து மூக்கொலி
+    </div>
+</div>
+
+<script>
+    // --------------------------------------------------------------
+    // பிறப்பியல் விதிகள் — தொல்காப்பிய எழுத்ததிகாரம்
+    // உந்தி முதல் வளி, உறுப்புகள்: மிடறு, அண்ணம், பல், நா, இதழ், மூக்கு
+    // உயிர்கள்: மிடற்றுப் பிறந்த வளி (2)
+    // அ,ஆ -> அங்காந்து இயலும் (3)
+    // இ,ஈ,எ,ஏ,ஐ -> அண்பல் முதல் நா விளிம்பு உறல் (4)
+    // உ,ஊ,ஒ,ஓ,ஔ -> இதழ் குவிந்து (5)
+    // க,ங: முதல் நா அண்ணம் (7)
+    // ச,ஞ: இடை நா அண்ணம் (8)
+    // ட,ண: நுனி நா அண்ணம் (9)
+    // த,ந: நுனி பரந்து பல் முதல் (11)
+    // ற,ன: அணரி நுனி நா + அண்ணம் (12)
+    // ர,ழ: நுனி நா + அணரி அண்ணம் வருட (13)
+    // ல,ள: நா விளிம்பு வீங்கி அண்பல், அண்ணம் ஒற்ற / வருட (14)
+    // ப,ம: இதழ் இயைந்து (15)
+    // வ: பல் இதழ் இயைய (16)
+    // ய: அண்ணம் சேர்ந்த மிடற்று வளி (17)
+    // மெல்லெழுத்து ஆறும் (ங ஞ ண ந ம ன) மூக்கின் வளி சாரும் (18)
+    // --------------------------------------------------------------
+
+    const questionBank = [
+        // உயிர்கள்: மிடற்றுப் பிறப்பு (2)
+        { display: "அ", type: "பிறப்பிடம்?", correct: "மிடற்று வளி", options: ["மிடற்று வளி", "அண்ணம்", "இதழ்", "பல்"], hint: "பன்னீர் உயிரும் மிடற்றுப் பிறந்த வளியின் இசைக்கும் (2)" },
+        { display: "ஆ", type: "எங்கு பிறக்கும்?", correct: "மிடற்று வளி", options: ["மிடற்று வளி", "நுனி நா", "இதழ் குவிவு", "அண்ணம்"], hint: "அ,ஆ மிடற்று வளியில் அங்காந்து இயலும் (3)" },
+        { display: "இ", type: "பிறப்பு உறுப்பு?", correct: "அண்பல் + நா விளிம்பு", options: ["அண்பல் + நா விளிம்பு", "இதழ்", "மிடற்று வளி", "அண்ணம்"], hint: "இ,ஈ,எ,ஏ,ஐ அண்பல் முதல் நா விளிம்பு உறல் (4)" },
+        { display: "ஈ", type: "இதன் பிறப்பு நிலை?", correct: "அண்பல் முதல் நா விளிம்பு", options: ["அண்பல் முதல் நா விளிம்பு", "இதழ் குவிதல்", "நுனி நா", "மிடறு"], hint: "நெட்டெழுத்தாயினும் அதே பிறப்பு (4)" },
+        { display: "எ", type: "பிறப்பிடம்?", correct: "அண்பல் + நா விளிம்பு", options: ["அண்பல் + நா விளிம்பு", "இதழ் குவிதல்", "மிடற்று வளி", "அண்ணம்"], hint: "எ,ஏ குறில்/நெடில் ஒரே பிறப்பு" },
+        { display: "ஏ", type: "ஏகாரப் பிறப்பு?", correct: "அண்பல் + நா விளிம்பு", options: ["அண்பல் + நா விளிம்பு", "இதழ்", "அண்ணம்", "மிடறு"], hint: "இ,ஈ,எ,ஏ,ஐ ஒரே இடம்" },
+        { display: "உ", type: "பிறக்கும் முறை?", correct: "இதழ் குவிந்து", options: ["இதழ் குவிந்து", "மிடற்று வளி", "நா அண்ணம்", "பல்லும் நாவும்"], hint: "உ,ஊ,ஒ,ஓ,ஔ இதழ் குவிந்து இயலும் (5)" },
+        { display: "ஊ", type: "பிறப்பியல் வகை?", correct: "இதழ் குவிந்து", options: ["இதழ் குவிந்து", "மூக்கொலி", "அண்ண ஒற்று", "நா விளிம்பு"], hint: "இதழ்கள் குவிந்து உச்சரிக்கும்" },
+        { display: "ஒ", type: "ஒகாரப் பிறப்பு?", correct: "இதழ் குவிந்து", options: ["இதழ் குவிந்து", "மிடற்று வளி", "அண்ணம்", "நா அணரி"], hint: "ஒ,ஓ,ஔ இதழ் குவிதல்" },
+        { display: "ஓ", type: "ஓகாரம் எங்கு?", correct: "இதழ் குவிந்து", options: ["இதழ் குவிந்து", "அண்ணம்", "நா விளிம்பு", "மிடறு"], hint: "இதழ் குவிந்தே பிறக்கும் (5)" },
+        // மெய்: க,ங - முதல் நா அண்ணம் (7)
+        { display: "க", type: "எங்கு பிறக்கும்?", correct: "முதல் நா அண்ணம்", options: ["முதல் நா அண்ணம்", "இடை நா அண்ணம்", "நுனி நா அண்ணம்", "இதழ்"], hint: "ககார ஙகாரம் முதல் நா அண்ணம் (7)" },
+        { display: "ங", type: "பிறப்பிடம் (மெல்லினம்)?", correct: "முதல் நா அண்ணம்", options: ["முதல் நா அண்ணம்", "இடை நா", "நுனி நா", "இதழ்"], hint: "மெல்லெழுத்து மூக்கின் வளி சாரும்; ஆனால் இடம் முதல் நா அண்ணம் (18)" },
+        // ச,ஞ - இடை நா அண்ணம் (8)
+        { display: "ச", type: "பிறப்பு இடம்?", correct: "இடை நா அண்ணம்", options: ["இடை நா அண்ணம்", "முதல் நா", "நுனி நா", "அண்பல்"], hint: "சகார ஞகாரம் இடை நா அண்ணம் (8)" },
+        { display: "ஞ", type: "ஞகாரப் பிறப்பு?", correct: "இடை நா அண்ணம்", options: ["இடை நா அண்ணம்", "முதல் நா", "அணரி நுனி", "இதழ்"], hint: "ஞ - இடைநா + மூக்கொலி (இடை நா அண்ணம்)" },
+        // ட,ண - நுனி நா அண்ணம் (9)
+        { display: "ட", type: "டகாரம் பிறப்பிடம்?", correct: "நுனி நா அண்ணம்", options: ["நுனி நா அண்ணம்", "முதல் நா", "இடை நா", "நா விளிம்பு"], hint: "டகார ணகாரம் நுனி நா அண்ணம் (9)" },
+        { display: "ண", type: "ணகாரம் பிறப்பு?", correct: "நுனி நா அண்ணம்", options: ["நுனி நா அண்ணம்", "அணரி", "நா விளிம்பு", "இதழ்"], hint: "ண - நுனி நா அண்ணம் + மூக்கு (18)" },
+        // த,ந - நுனி பரந்து பல் முதல் (11)
+        { display: "த", type: "பிறப்பு விவரம்?", correct: "நுனி நா பரந்து பல் முதல்", options: ["நுனி நா பரந்து பல் முதல்", "அணரி நுனி", "இதழ் இயைவு", "மிடறு"], hint: "நா நுனி பரந்து மெய் உற ஒற்ற ... தகார நகாரம் (11)" },
+        { display: "ந", type: "நகாரம் பிறப்பு?", correct: "நுனி நா பரந்து பல் முதல்", options: ["நுனி நா பரந்து பல் முதல்", "நுனி நா அணரி", "இதழ் குவிவு", "அண்ணம் மட்டும்"], hint: "த,ந ஒரே பிறப்பு + மூக்கு (ந)" },
+        // ற,ன - அணரி நுனி நா + அண்ணம் (12)
+        { display: "ற", type: "றகாரம் பிறப்பு?", correct: "அணரி நுனி நா + அண்ணம்", options: ["அணரி நுனி நா + அண்ணம்", "நுனி நா பல்", "இதழ்", "மிடறு"], hint: "அணரி நுனி நா அண்ணம் ஒற்ற - றஃகான் னஃகான் (12)" },
+        { display: "ன", type: "னகார பிறப்பு?", correct: "அணரி நுனி நா + அண்ணம்", options: ["அணரி நுனி நா + அண்ணம்", "பல் முதல்", "நா விளிம்பு", "இதழ்"], hint: "ற,ன ஒரே இடம்; ன மெல்லினம் மூக்கொலி" },
+        // ர,ழ - நுனி நா அணரி அண்ணம் வருட (13)
+        { display: "ர", type: "ரகாரம் பிறப்பிடம்?", correct: "நுனி நா + அணரி அண்ணம் வருட", options: ["நுனி நா + அணரி அண்ணம் வருட", "நா விளிம்பு", "இதழ்", "மிடறு"], hint: "நுனி நா அணரி அண்ணம் வருட - ரகார ழகாரம் (13)" },
+        { display: "ழ", type: "ழகாரம் பிறப்பு?", correct: "நுனி நா + அணரி அண்ணம் வருட", options: ["நுனி நா + அணரி அண்ணம் வருட", "அண்பல் நா விளிம்பு", "இதழ் குவிவு", "மிடறு"], hint: "ர,ழ ஒத்த பிறப்பு, ழ இடையெழுத்து" },
+        // ல,ள - நா விளிம்பு வீங்கி அண்பல் + அண்ணம் (14)
+        { display: "ல", type: "லகாரம் எங்கு?", correct: "நா விளிம்பு வீங்கி அண்பல்/அண்ணம்", options: ["நா விளிம்பு வீங்கி அண்பல்/அண்ணம்", "நுனி நா", "இதழ்", "மிடறு"], hint: "நா விளிம்பு வீங்கி அண்பல் முதல் உற... லகார ளகாரம் (14)" },
+        { display: "ள", type: "ளகாரப் பிறப்பு?", correct: "நா விளிம்பு வீங்கி அண்பல்/அண்ணம்", options: ["நா விளிம்பு வீங்கி அண்பல்/அண்ணம்", "அணரி", "மூக்கு", "இதழ்"], hint: "ல,ள ஒரே பிறப்பு, ள சற்று மேலண்ணம்" },
+        // ப,ம - இதழ் இயைந்து (15)
+        { display: "ப", type: "பகாரம் பிறப்பு?", correct: "இதழ் இயைந்து", options: ["இதழ் இயைந்து", "பல் இதழ்", "நா அண்ணம்", "மிடறு"], hint: "இதழ் இயைந்து பிறக்கும் பகார மகாரம் (15)" },
+        { display: "ம", type: "மகாரம் பிறப்பிடம்?", correct: "இதழ் இயைந்து", options: ["இதழ் இயைந்து", "இதழ்+பல்", "அண்ணம்", "மூக்கு"], hint: "ப,ம ஒரே பிறப்பு, ம மூக்கொலி சேரும் (18)" },
+        // வ - பல் இதழ் இயைய (16)
+        { display: "வ", type: "வகாரம் எங்கு?", correct: "பல் இதழ் இயைய", options: ["பல் இதழ் இயைய", "இதழ் இயைவு", "நா அண்ணம்", "மிடறு"], hint: "பல் இதழ் இயைய வகாரம் பிறக்கும் (16)" },
+        // ய - அண்ணம் சேர்ந்த மிடற்று வளி (17)
+        { display: "ய", type: "யகாரப் பிறப்பு?", correct: "அண்ணம் சேர்ந்த மிடற்று வளி", options: ["அண்ணம் சேர்ந்த மிடற்று வளி", "இதழ்", "நுனி நா", "பல்"], hint: "அண்ணம் சேர்ந்த மிடற்று எழு வளி இசை ... யகாரம் (17)" },
+        // மூக்கொலி சேர்ந்த மெல்லெழுத்து விளக்கம் (18)
+        { display: "ங", type: "மெல்லெழுத்து மூக்கின் வளி சாரும்?", correct: "ஆம் (மூக்கொலி)", options: ["ஆம் (மூக்கொலி)", "இல்லை", "சில மட்டும்", "எப்போதும் இல்லை"], hint: "மெல்லெழுத்து ஆறும் (ங ஞ ண ந ம ன) மூக்கின் வளி இசை யாப்புறத் தோன்றும் (18)" },
+        { display: "ஞ", type: "ஞகாரம் மூக்கொலியா?", correct: "ஆம் (மூக்கொலி)", options: ["ஆம் (மூக்கொலி)", "இல்லை", "சில நேரம்", "எப்போதும் இல்லை"], hint: "மெல்லின எழுத்துகளுக்கு மூக்கு வளி சேர்கிறது (18)" },
+        { display: "ண", type: "ணகாரத்தில் மூக்கொலி உண்டா?", correct: "ஆம் (மூக்கொலி)", options: ["ஆம் (மூக்கொலி)", "இல்லை", "அரிதாக", "உயிருக்கே"], hint: "மெல்லெழுத்து ஆறில் ஒன்று — மூக்கின் வளி சாரும்" },
+        { display: "ன", type: "னகாரம் மூக்கொலி பெறுமா?", correct: "ஆம் (மூக்கொலி)", options: ["ஆம் (மூக்கொலி)", "இல்லை", "எப்போதும் இல்லை", "சந்தர்ப்பத்தில்"], hint: "ன மெல்லெழுத்து; மூக்கின் வளி யாப்புறும் (18)" },
+        // சார்பெழுத்து பற்றி (19) - பொதுவானது
+        { display: "ஃ (ஆய்தம்)", type: "சார்பெழுத்து பிறப்பு?", correct: "தம்தம் சார்பின் பிறப்பு", options: ["தம்தம் சார்பின் பிறப்பு", "மிடற்று மட்டும்", "இதழ் மட்டும்", "பிறப்பில்லை"], hint: "சார்ந்து வரின் அல்லது தமக்கு இயல்பு இல... ஒத்த காட்சியின் (19)" }
+    ];
+
+    // Shuffle helper
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let activeQList = [];
+    let currentIndex = 0;
+    let score = 0;
+    let streak = 0;
+    let answered = false;
+    let currentQuestion = null;
+
+    // DOM elements
+    const letterEl = document.getElementById("questionLetter");
+    const hintEl = document.getElementById("questionHint");
+    const optionsDiv = document.getElementById("optionsContainer");
+    const feedbackDiv = document.getElementById("feedbackMsg");
+    const scoreSpan = document.getElementById("scoreVal");
+    const streakSpan = document.getElementById("streakVal");
+    const nextBtn = document.getElementById("nextBtn");
+    const resetBtn = document.getElementById("resetBtn");
+
+    function updateUI() {
+        scoreSpan.innerText = score;
+        streakSpan.innerText = streak;
+    }
+
+    function loadQuestion() {
+        if (currentIndex >= activeQList.length) {
+            letterEl.innerText = "🏆🎉";
+            hintEl.innerText = "பிறப்பியல் மாஸ்டர்! வெற்றி!";
+            optionsDiv.innerHTML = '<button class="opt-btn" disabled>✨ ஆட்டம் முடிந்தது ✨</button>';
+            feedbackDiv.innerHTML = "அருமை! அனைத்து எழுத்துகளின் பிறப்பிடமும் கற்றுக்கொண்டீர்கள்! மீண்டும் தொடங்கு.";
+            nextBtn.disabled = true;
+            nextBtn.style.opacity = "0.6";
+            return;
+        }
+        nextBtn.disabled = false;
+        nextBtn.style.opacity = "1";
+        answered = false;
+        currentQuestion = activeQList[currentIndex];
+        letterEl.innerText = currentQuestion.display;
+        hintEl.innerText = currentQuestion.hint || "பிறப்பிடத்தைத் தேர்வு செய்க";
+        // options shuffle
+        let opts = [...new Set([...currentQuestion.options, currentQuestion.correct])];
+        const shuffledOpts = shuffleArray(opts);
+        optionsDiv.innerHTML = "";
+        shuffledOpts.forEach(opt => {
+            const btn = document.createElement("button");
+            btn.innerText = opt;
+            btn.classList.add("opt-btn");
+            btn.addEventListener("click", (e) => handleAnswer(opt, btn));
+            optionsDiv.appendChild(btn);
+        });
+        feedbackDiv.innerHTML = "🔊 எங்கு பிறக்கும்? உச்சரிப்பு இடத்தைக் கண்டுபிடி!";
+        feedbackDiv.style.background = "#fff1e0";
+        feedbackDiv.style.color = "#b64a1a";
+    }
+
+    function handleAnswer(selected, btn) {
+        if (answered) {
+            feedbackDiv.innerHTML = "✅ ஏற்கனவே பதிலளித்தாய்! அடுத்த கேள்விக்குச் செல்.";
+            return;
+        }
+        const isCorrect = (selected === currentQuestion.correct);
+        answered = true;
+        if (isCorrect) {
+            let addPoints = 10;
+            if (streak >= 5) addPoints = 20;
+            else if (streak >= 3) addPoints = 15;
+            score += addPoints;
+            streak += 1;
+            feedbackDiv.innerHTML = `✅ சரியான பிறப்பு! +${addPoints} புள்ளிகள்! 🔥 தொடர் ${streak}`;
+            feedbackDiv.style.background = "#cfe9d8";
+            feedbackDiv.style.color = "#166534";
+            letterEl.classList.add("correct-pop");
+            setTimeout(() => letterEl.classList.remove("correct-pop"), 300);
+        } else {
+            streak = 0;
+            feedbackDiv.innerHTML = `❌ தவறு! சரியான பதில்: "${currentQuestion.correct}". மீண்டும் முயல்க!`;
+            feedbackDiv.style.background = "#ffded5";
+            feedbackDiv.style.color = "#b33a1c";
+        }
+        updateUI();
+        // disable all buttons and mark correct
+        const allBtns = document.querySelectorAll(".opt-btn");
+        allBtns.forEach(b => {
+            b.disabled = true;
+            if (b.innerText === currentQuestion.correct) {
+                b.style.background = "#5fa04f";
+                b.style.boxShadow = "0 4px 0 #2b6e2b";
+                b.style.color = "white";
+            } else if (b === btn && !isCorrect) {
+                b.style.background = "#d9534f";
+                b.style.boxShadow = "0 4px 0 #9b2e2a";
+            }
+        });
+    }
+
+    function nextQuestion() {
+        if (!answered && currentIndex < activeQList.length) {
+            feedbackDiv.innerHTML = "⚠️ ஒரு விடையைத் தேர்ந்தெடு! பிறப்பியலை ஆராய்.";
+            feedbackDiv.style.background = "#ffefb9";
+            return;
+        }
+        if (currentIndex >= activeQList.length) {
+            resetGame();
+            return;
+        }
+        currentIndex++;
+        loadQuestion();
+    }
+
+    function resetGame() {
+        activeQList = shuffleArray([...questionBank]);
+        currentIndex = 0;
+        score = 0;
+        streak = 0;
+        answered = false;
+        updateUI();
+        loadQuestion();
+        feedbackDiv.innerHTML = "🔄 புதிய பிறப்பியல் சவால்! ஒவ்வொரு எழுத்தின் பிறப்பிடத்தைத் தேர்ந்தெடு!";
+        feedbackDiv.style.background = "#fff1e0";
+        nextBtn.disabled = false;
+    }
+
+    // initial setup
+    activeQList = shuffleArray([...questionBank]);
+    currentIndex = 0;
+    score = 0;
+    streak = 0;
+    answered = false;
+    updateUI();
+    loadQuestion();
+
+    nextBtn.addEventListener("click", nextQuestion);
+    resetBtn.addEventListener("click", resetGame);
+</script>
+</body>
+</html>
