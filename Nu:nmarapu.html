@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>தொல்காப்பிய எழுத்து சவால் - பப்சி ஸ்டைல் கேம்</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none; /* சாப் கேம்களுக்கு பொதுவானது */
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #f5e6d3 0%, #f9d8b4 100%);
+            font-family: 'Segoe UI', 'Poppins', 'Noto Sans Tamil', system-ui, -apple-system, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        /* பப்சி இன்ஸ்பிர்டு கேம் கார்டு */
+        .game-container {
+            max-width: 550px;
+            width: 100%;
+            background: #fffef7;
+            border-radius: 70px 70px 70px 40px;
+            box-shadow: 0 30px 35px rgba(0, 0, 0, 0.2), 0 0 0 12px #ffde59, 0 0 0 14px #e33e2b;
+            overflow: hidden;
+            transition: transform 0.2s ease;
+        }
+
+        .game-container:active {
+            transform: scale(0.99);
+        }
+
+        /* ஹெடர் பப்சி வைப் */
+        .header {
+            background: #e33e2b;
+            padding: 20px 20px 18px 25px;
+            color: white;
+            text-shadow: 3px 3px 0 #b12a1a;
+            letter-spacing: 1px;
+            border-bottom: 5px solid #ffc107;
+        }
+
+        .header h1 {
+            font-size: 1.9rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            font-weight: 800;
+        }
+
+        .header h1 span:first-child {
+            background: #ffde59;
+            padding: 5px 18px;
+            border-radius: 50px;
+            color: #b12a1a;
+            font-size: 1.5rem;
+            box-shadow: inset 0 -2px 0 #c9a400;
+        }
+
+        .sub {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin-top: 8px;
+            font-weight: 500;
+            display: flex;
+            gap: 15px;
+        }
+
+        /* ஸ்கோர் & ஸ்ட்ரீக் */
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            background: #2d1b11;
+            color: #ffebc2;
+            padding: 12px 25px;
+            font-weight: bold;
+            font-size: 1.3rem;
+            border-bottom: 2px solid #ffb347;
+        }
+
+        .score-box, .streak-box {
+            background: #00000055;
+            padding: 5px 18px;
+            border-radius: 40px;
+            backdrop-filter: blur(2px);
+        }
+
+        .streak-box {
+            background: #ff8c42;
+            color: #2d1b11;
+        }
+
+        /* கேம் ஏரியா */
+        .game-area {
+            padding: 30px 20px 20px;
+        }
+
+        .question-card {
+            background: #fef1df;
+            border-radius: 55px;
+            padding: 30px 15px;
+            text-align: center;
+            margin-bottom: 25px;
+            box-shadow: inset 0 1px 4px #ffd58c, 0 12px 20px rgba(0,0,0,0.1);
+            border: 1px solid #ffe0b5;
+        }
+
+        .tamil-big {
+            font-size: 4.5rem;
+            font-weight: 800;
+            font-family: 'Noto Sans Tamil', 'Segoe UI', monospace;
+            background: white;
+            display: inline-block;
+            padding: 15px 35px;
+            border-radius: 90px;
+            box-shadow: 0 8px 0 #c29b6b;
+            letter-spacing: 8px;
+            color: #3a280f;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            margin-top: 20px;
+            background: #ffecb3;
+            display: inline-block;
+            padding: 6px 20px;
+            border-radius: 40px;
+            font-weight: bold;
+            color: #ad4b1c;
+        }
+
+        /* ஆப்சன் பட்டன்கள் - பப்சி ஸ்டைல் கலர் */
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+            margin: 20px 0 15px;
+        }
+
+        .opt-btn {
+            background: #ffdb7e;
+            border: none;
+            font-size: 2rem;
+            font-family: 'Noto Sans Tamil', monospace;
+            font-weight: bold;
+            padding: 12px 20px;
+            min-width: 100px;
+            border-radius: 60px;
+            color: #542a0a;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #b47c44;
+            transition: 0.07s linear;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+
+        .opt-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #b47c44;
+        }
+
+        /* சிறப்பு பதில் பீட்சா எஃபெக்ட் */
+        .feedback {
+            text-align: center;
+            font-weight: bold;
+            margin: 10px 0 10px;
+            font-size: 1.3rem;
+            padding: 12px;
+            border-radius: 60px;
+            transition: 0.2s;
+        }
+
+        .next-btn {
+            background: #33aa66;
+            color: white;
+            border: none;
+            width: 80%;
+            padding: 14px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            border-radius: 50px;
+            margin: 15px auto 10px;
+            display: block;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #1f6e42;
+            transition: 0.05s linear;
+            font-family: inherit;
+        }
+
+        .next-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #1f6e42;
+        }
+
+        .reset-btn {
+            background: #ff914d;
+            box-shadow: 0 6px 0 #bd5f2a;
+            margin-bottom: 20px;
+            width: 60%;
+        }
+
+        .footer {
+            background: #fae6c3;
+            text-align: center;
+            padding: 12px;
+            font-size: 0.7rem;
+            color: #7a4c1a;
+            border-top: 2px solid #ffcd94;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(1);}
+            80% { transform: scale(1.2); background: #ffbc6e;}
+            100% { transform: scale(1);}
+        }
+
+        .correct-pop {
+            animation: pop 0.3s ease;
+        }
+
+        @media (max-width: 500px) {
+            .tamil-big { font-size: 2.8rem; padding: 8px 20px; letter-spacing: 4px; }
+            .opt-btn { font-size: 1.5rem; min-width: 70px; padding: 8px 12px; }
+            .stats { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="game-container">
+    <div class="header">
+        <h1>
+            <span>🎯 எழுத்து மரபு</span>
+            <span>⚡ PEPSCI கேம்</span>
+        </h1>
+        <div class="sub">📜 தொல்காப்பியம் — நூல் மரபு · இன்றைய ஸ்டைல்</div>
+    </div>
+
+    <div class="stats">
+        <div class="score-box">🏆 மதிப்பெண்: <span id="scoreVal">0</span></div>
+        <div class="streak-box">🔥 தொடர்: <span id="streakVal">0</span></div>
+    </div>
+
+    <div class="game-area">
+        <div class="question-card">
+            <div class="tamil-big" id="questionLetter">அ</div>
+            <div class="question-text" id="questionHint">இது என்ன வகை?</div>
+        </div>
+
+        <div class="options" id="optionsContainer">
+            <!-- டைனமிக் பட்டன்கள் -->
+        </div>
+
+        <div class="feedback" id="feedbackMsg">✨ விளையாட கிளிக் செய்!</div>
+        
+        <button class="next-btn" id="nextBtn">➡ அடுத்த கேள்வி</button>
+        <button class="next-btn reset-btn" id="resetBtn">🔄 புதிய ஆட்டம்</button>
+    </div>
+    <div class="footer">
+        🧠 தொல்காப்பிய எழுத்து விதிகள் · குற்றெழுத்து / நெட்டெழுத்து · மெய் வகைகள் · புள்ளி மரபு
+    </div>
+</div>
+
+<script>
+    // --------------------------------------------------------------
+    // தொல்காப்பியம் எழுத்ததிகாரம் நூல்மரபு அடிப்படையில் கேள்விகள்
+    // இளைஞர்கள் விரும்பும் pepsi vibe + gamification
+    // --------------------------------------------------------------
+
+    // 1. முதல் வகை: உயிர் வகைப்பாடு (குறில்/நெடில்)
+    // 2. மெய் எழுத்து வகைப்பாடு (வல்லெழுத்து, மெல்லெழுத்து, இடையெழுத்து)
+    // 3. சுட்டு / வினா எழுத்துகள் (அ இ உ / ஆ ஏ ஓ)
+    // 4. ஒற்று முன் வரும் எழுத்து விதிகள் (ட, ற, ல, ள முன் க,ச,ப) - பொருத்த விளையாட்டு
+    // 5. ங,ஞ,ண,ன,ம,ன வகை பொருத்தல்
+
+    // பாடக்களஞ்சியம்: questionBank
+    // ஒவ்வொரு கேள்வியும் { displayLetter, questionType, correctAnswer, optionsArray, explanation }
+    const questionBank = [
+        // --- குற்றெழுத்து & நெட்டெழுத்து (பாடல் 3,4) ---
+        { display: "அ", type: "ஓர் அளபு இசைக்கும் குற்றெழுத்து?", correct: "குற்றெழுத்து", options: ["குற்றெழுத்து", "நெட்டெழுத்து", "மெய்", "ஆய்தம்"], hint: "அ,இ,உ,எ,ஒ → ஒரு மாத்திரை" },
+        { display: "இ", type: "குற்றெழுத்தா?", correct: "குற்றெழுத்து", options: ["குற்றெழுத்து", "நெட்டெழுத்து", "இடையெழுத்து", "வல்லெழுத்து"], hint: "குற்றியலிகரம் தொடர்பு" },
+        { display: "உ", type: "தொல்காப்பியப்படி இதன் அளபு?", correct: "குற்றெழுத்து", options: ["குற்றெழுத்து", "நெட்டெழுத்து", "மூவளபு", "அரையளபு"], hint: "ஓரளபு மாத்திரை" },
+        { display: "ஆ", type: "இரண்டு அளபு இசைக்கும்?", correct: "நெட்டெழுத்து", options: ["நெட்டெழுத்து", "குற்றெழுத்து", "மெய்", "உயிர்மெய்"], hint: "ஆ, ஈ, ஊ, ஏ, ஐ, ஓ, ஔ நெடில்" },
+        { display: "ஈ", type: "நெட்டெழுத்து வகை?", correct: "நெட்டெழுத்து", options: ["நெட்டெழுத்து", "குற்றெழுத்து", "இடையெழுத்து", "வல்லினம்"], hint: "ஈர் அளபு" },
+        { display: "ஔ", type: "இது எந்த வகை?", correct: "நெட்டெழுத்து", options: ["நெட்டெழுத்து", "குற்றெழுத்து", "ஆய்தம்", "உயிர்மெய்"], hint: "ஔகார இறுவாய் உயிர்" },
+        
+        // --- மெய் வகைகள்: வல்லெழுத்து, மெல்லெழுத்து, இடையெழுத்து (பாடல் 19,20,21) ---
+        { display: "க", type: "வல்லெழுத்து எது?", correct: "வல்லெழுத்து", options: ["வல்லெழுத்து", "மெல்லெழுத்து", "இடையெழுத்து", "உயிர்"], hint: "க, ச, ட, த, ப, ற வல்லெழுத்து" },
+        { display: "ச", type: "இதன் மெய் வகை?", correct: "வல்லெழுத்து", options: ["வல்லெழுத்து", "மெல்லெழுத்து", "இடையெழுத்து", "ஆய்தம்"], hint: "வல்லின எழுத்துகளில் ஒன்று" },
+        { display: "ஞ", type: "மெல்லெழுத்து எது?", correct: "மெல்லெழுத்து", options: ["மெல்லெழுத்து", "வல்லெழுத்து", "இடையெழுத்து", "உயிர்"], hint: "ங,ஞ,ண,ந,ம,ன மெல்லெழுத்து" },
+        { display: "ன", type: "மெல்லெழுத்து சரிதானா?", correct: "மெல்லெழுத்து", options: ["மெல்லெழுத்து", "வல்லெழுத்து", "இடையெழுத்து", "சுட்டு"], hint: "னகர இறுவாய் மெய்" },
+        { display: "ய", type: "இடையெழுத்து வகை?", correct: "இடையெழுத்து", options: ["இடையெழுத்து", "வல்லெழுத்து", "மெல்லெழுத்து", "நெட்டெழுத்து"], hint: "ய,ர,ல,வ,ழ,ள இடையெழுத்து" },
+        { display: "ழ", type: "இது இடையெழுத்தா?", correct: "இடையெழுத்து", options: ["இடையெழுத்து", "வல்லெழுத்து", "மெல்லெழுத்து", "குற்றெழுத்து"], hint: "ழகர இடையெழுத்து" },
+
+        // --- சுட்டு மற்றும் வினா எழுத்துகள் (பாடல் 31,32) ---
+        { display: "அ", type: "சுட்டெழுத்து எது?", correct: "சுட்டு", options: ["சுட்டு", "வினா", "குற்றெழுத்து", "நெட்டெழுத்து"], hint: "அ இ உ சுட்டு" },
+        { display: "இ", type: "இது சுட்டெழுத்தா?", correct: "சுட்டு", options: ["சுட்டு", "வினா", "இடையெழுத்து", "மெய்"], hint: "அ,இ,உ மூன்றும் சுட்டு" },
+        { display: "ஆ", type: "வினா எழுத்து எது?", correct: "வினா", options: ["வினா", "சுட்டு", "நெட்டெழுத்து", "இடையெழுத்து"], hint: "ஆ, ஏ, ஓ வினா எழுத்து" },
+        { display: "ஓ", type: "வினாப்பொருள் தரும்?", correct: "வினா", options: ["வினா", "சுட்டு", "குற்றெழுத்து", "வல்லெழுத்து"], hint: "ஓகாரம் வினா" },
+
+        // --- மெய்ம்மயக்கு விதிகள்: ட,ற,ல,ள முன் க,ச,ப (பாடல் 23) ---
+        { display: "ட் + ?", type: "டகர புள்ளி முன் வரும் எழுத்து?", correct: "க", options: ["க", "ச", "ப", "த"], hint: "ட,ற,ல,ள முன் க ச ப உரிய" },
+        { display: "ற் + ?", type: "றகர முன் வல்லெழுத்து?", correct: "ச", options: ["ச", "க", "ப", "ய"], hint: "ற முன் ச வரும்" },
+        { display: "ள் + ?", type: "ளகர முன்னர் வரும்?", correct: "ப", options: ["ப", "க", "ச", "ம"], hint: "ள முன் ப வரும்" },
+        
+        // --- ங,ஞ,ண,ந,ம,ன முன் தம்தம் இசை ஒத்தன (பாடல் 25) மற்றும் சிறப்பு விதிகள் ---
+        { display: "ங் + ?", type: "ஙகர முன் ஒத்த இசை?", correct: "க", options: ["க", "ச", "ஞ", "ய"], hint: "ங,ஞ,ண,ந,ம,ன முன் தம்தம் இசைகள் ஒத்தன (ங்-க)" },
+        { display: "ஞ் + ?", type: "ஞகர ஒத்தெழுத்து?", correct: "ச", options: ["ச", "க", "ஞ", "ய"], hint: "ஞ-ச ஒற்றுமை" },
+        { display: "ண் + ?", type: "ணகர முன் உரிய எழுத்து?", correct: "ட", options: ["ட", "த", "க", "ப"], hint: "ண்-ட ஒற்றுமை" },
+        { display: "ந் + ?", type: "நகர முன் வருவது?", correct: "த", options: ["த", "ந", "ன", "ய"], hint: "ந்-த" },
+        { display: "ம் + ?", type: "மகர முன் வவ்வும் தோன்றும்?", correct: "வ", options: ["வ", "ய", "ப", "ம"], hint: "மஃகான் முன் வவ்வும் தோன்றும் (பாடல்28)" },
+        
+        // -- ய,ர,ழ முன் ஙகரமொடு தோன்றும் (பாடல்29) --
+        { display: "ய் + ?", type: "யகர முன் வரும் முதல் எழுத்து?", correct: "ங", options: ["ங", "ஞ", "ன", "ய"], hint: "ய,ர,ழ முன் ஙகரம் வரும்" },
+        { display: "ர + ?", type: "ரகரத்தின் முன்?", correct: "ங", options: ["ங", "ற", "ன", "ண"], hint: "யரழ முன் ங" },
+        
+        // --- அழகிய விதி: ல,ளஃகான் முன் ய,வவும் தோன்றும் (பாடல்24) ---
+        { display: "ல் + ?", type: "லகர முன் வரக்கூடியது?", correct: "ய", options: ["ய", "வ", "ழ", "ள"], hint: "ல,ளஃகான் முன் ய,வ தோன்றும்" },
+        { display: "ள் + ?", type: "ளகர முன் ய/வ?", correct: "வ", options: ["வ", "ய", "க", "ச"], hint: "ள முன் வவ்வும் தோன்றும்" }
+    ];
+
+    // கேள்வி மீண்டும் வராமல் இருக்க shuffle + index
+    let currentQuestions = [];
+    let currentQIndex = 0;
+    let score = 0;
+    let streak = 0;
+    let answered = false;  // ஒரு கேள்விக்கு ஒருமுறை மட்டும் பதில்
+    let currentQuestionObj = null;
+
+    // DOM elements
+    const questionLetterSpan = document.getElementById("questionLetter");
+    const questionHintSpan = document.getElementById("questionHint");
+    const optionsDiv = document.getElementById("optionsContainer");
+    const feedbackDiv = document.getElementById("feedbackMsg");
+    const scoreSpan = document.getElementById("scoreVal");
+    const streakSpan = document.getElementById("streakVal");
+    const nextBtn = document.getElementById("nextBtn");
+    const resetBtn = document.getElementById("resetBtn");
+
+    // Shuffle function
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    // initialize or reset game
+    function initGame() {
+        // கேள்விகளை copy & shuffle
+        currentQuestions = shuffleArray([...questionBank]);
+        currentQIndex = 0;
+        score = 0;
+        streak = 0;
+        answered = false;
+        updateScoreUI();
+        loadQuestion();
+        feedbackDiv.innerHTML = "🎉 புதிய ஆட்டம்! அடுத்ததை கிளிக் செய்";
+        feedbackDiv.style.color = "#b45f2b";
+        feedbackDiv.style.background = "transparent";
+    }
+
+    function updateScoreUI() {
+        scoreSpan.innerText = score;
+        streakSpan.innerText = streak;
+    }
+
+    // கேள்வி காட்டுதல்
+    function loadQuestion() {
+        if (currentQIndex >= currentQuestions.length) {
+            // கேம் முடிந்தது, மீண்டும் shuffle செய்யலாம் அல்லது வெற்றி வாழ்த்து
+            feedbackDiv.innerHTML = "🏆 அருமை! எல்லா கேள்விகளையும் வென்றீர்கள்! மீண்டும் தொடங்கு 🏆";
+            feedbackDiv.style.color = "#c95a0f";
+            questionLetterSpan.innerText = "🎮✨";
+            questionHintSpan.innerText = "கேம் கம்ப்ளீட்!";
+            optionsDiv.innerHTML = '<button class="opt-btn" disabled>✨ வெற்றி</button>';
+            nextBtn.disabled = true;
+            nextBtn.style.opacity = "0.6";
+            return;
+        }
+        nextBtn.disabled = false;
+        nextBtn.style.opacity = "1";
+        answered = false;
+        currentQuestionObj = currentQuestions[currentQIndex];
+        questionLetterSpan.innerText = currentQuestionObj.display;
+        questionHintSpan.innerText = currentQuestionObj.hint || "வகையைத் தேர்ந்தெடு!";
+        
+        // options render
+        let opts = currentQuestionObj.options;
+        // தற்போதைய சரியான விடயம் இருக்குமா என உறுதி
+        if (!opts.includes(currentQuestionObj.correct)) {
+            opts = [currentQuestionObj.correct, ...opts.slice(0,3)];
+            currentQuestionObj.options = opts;
+        }
+        // shuffle options for fun
+        const shuffledOpts = shuffleArray([...opts]);
+        optionsDiv.innerHTML = "";
+        shuffledOpts.forEach(opt => {
+            const btn = document.createElement("button");
+            btn.innerText = opt;
+            btn.classList.add("opt-btn");
+            btn.addEventListener("click", () => handleAnswer(opt, btn));
+            optionsDiv.appendChild(btn);
+        });
+        feedbackDiv.innerHTML = "💥 எந்த விடை? கிளிக் செய்!";
+        feedbackDiv.style.color = "#2b5e2b";
+        feedbackDiv.style.background = "#fffaec";
+        feedbackDiv.style.borderRadius = "40px";
+    }
+
+    function handleAnswer(selected, btnElement) {
+        if (answered) {
+            feedbackDiv.innerHTML = "⏳ ஏற்கனவே விடை சொல்லிவிட்டாய்! அடுத்த கேள்விக்கு செல்.";
+            feedbackDiv.style.color = "#a55217";
+            return;
+        }
+        const isCorrect = (selected === currentQuestionObj.correct);
+        answered = true;
+        
+        if (isCorrect) {
+            // புள்ளி கணக்கீடு: streak based bonus +10 base
+            let gain = 10;
+            if (streak >= 3) gain = 15;
+            if (streak >= 6) gain = 20;
+            score += gain;
+            streak += 1;
+            feedbackDiv.innerHTML = `✅ சரியான விடை! +${gain} புள்ளிகள்! 🔥 தொடர் ${streak}`;
+            feedbackDiv.style.background = "#c8e6d9";
+            feedbackDiv.style.color = "#006f3c";
+            // pop animation on question letter
+            questionLetterSpan.classList.add("correct-pop");
+            setTimeout(() => questionLetterSpan.classList.remove("correct-pop"), 300);
+        } else {
+            streak = 0;
+            feedbackDiv.innerHTML = `❌ தவறு! சரியான விடை: "${currentQuestionObj.correct}". மீண்டும் முயல்க!`;
+            feedbackDiv.style.background = "#ffe0cc";
+            feedbackDiv.style.color = "#b33a1c";
+        }
+        updateScoreUI();
+        
+        // தேர்ந்தெடுத்த பட்டனைக் குறிக்கும், மற்றவற்றை disable செய்யலாம்
+        const allBtns = document.querySelectorAll(".opt-btn");
+        allBtns.forEach(btn => {
+            btn.disabled = true;
+            if (btn.innerText === currentQuestionObj.correct) {
+                btn.style.background = "#5fad56";
+                btn.style.boxShadow = "0 4px 0 #2f6b2f";
+                btn.style.color = "white";
+            } else if (btn === btnElement && !isCorrect) {
+                btn.style.background = "#e63946";
+                btn.style.boxShadow = "0 4px 0 #9e2a2a";
+                btn.style.color = "white";
+            }
+        });
+    }
+
+    function nextQuestion() {
+        if (!answered && currentQIndex < currentQuestions.length) {
+            feedbackDiv.innerHTML = "⚠️ முதலில் ஒரு விடையைத் தேர்ந்தெடு!";
+            feedbackDiv.style.background = "#fff0b5";
+            return;
+        }
+        if (currentQIndex >= currentQuestions.length) {
+            initGame(); // restart if game finished but next clicked
+            return;
+        }
+        currentQIndex++;
+        loadQuestion();
+    }
+
+    // reset events
+    resetBtn.addEventListener("click", () => {
+        initGame();
+    });
+    nextBtn.addEventListener("click", nextQuestion);
+
+    // start game
+    initGame();
+</script>
+</body>
+</html>
