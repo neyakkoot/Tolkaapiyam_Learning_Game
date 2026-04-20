@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>புணரியல் - PEPSCI சவால் | தொல்காப்பியம்</title>
+    <title>புணரியல் - ANIMATION ARCADE | தொல்காப்பியம்</title>
     <style>
         * {
             margin: 0;
@@ -14,62 +14,90 @@
 
         body {
             min-height: 100vh;
-            background: linear-gradient(145deg, #f9e3c0, #fbcb8e);
+            background: radial-gradient(circle at 10% 20%, #ffedd5, #f9b23f);
             font-family: 'Segoe UI', 'Poppins', 'Noto Sans Tamil', system-ui, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            animation: bgPulse 6s infinite ease-in-out;
         }
 
+        @keyframes bgPulse {
+            0% { background: radial-gradient(circle at 10% 20%, #ffedd5, #f9b23f); }
+            50% { background: radial-gradient(circle at 90% 80%, #ffe2b5, #ffa047); }
+            100% { background: radial-gradient(circle at 10% 20%, #ffedd5, #f9b23f); }
+        }
+
+        /* pepsi extreme card */
         .game-container {
-            max-width: 650px;
+            max-width: 700px;
             width: 100%;
-            background: #fffbf2;
-            border-radius: 70px 70px 60px 60px;
-            box-shadow: 0 30px 40px rgba(0, 0, 0, 0.25), 0 0 0 10px #ffde59, 0 0 0 14px #e33e2b;
+            background: rgba(255, 251, 240, 0.98);
+            border-radius: 80px 80px 70px 70px;
+            box-shadow: 0 40px 50px rgba(0, 0, 0, 0.3), 0 0 0 12px #ffde59, 0 0 0 18px #e33e2b;
             overflow: hidden;
-            transition: transform 0.12s ease;
+            transition: transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            backdrop-filter: blur(1px);
         }
 
-        .game-container:active {
-            transform: scale(0.99);
+        .game-container:hover {
+            transform: translateY(-5px);
         }
 
         .header {
-            background: #e33e2b;
-            padding: 22px 22px 18px 28px;
+            background: linear-gradient(135deg, #e33e2b, #c71f1f);
+            padding: 24px 24px 20px 32px;
             color: white;
-            text-shadow: 3px 3px 0 #a52a1a;
-            border-bottom: 5px solid #ffcd4a;
+            text-shadow: 4px 4px 0 #881e1a;
+            border-bottom: 6px solid #ffcd4a;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::after {
+            content: "⚡✨";
+            position: absolute;
+            right: -10px;
+            top: -15px;
+            font-size: 70px;
+            opacity: 0.2;
+            transform: rotate(15deg);
+            pointer-events: none;
         }
 
         .header h1 {
-            font-size: 2rem;
+            font-size: 2.3rem;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 15px;
             flex-wrap: wrap;
-            font-weight: 800;
+            font-weight: 900;
         }
 
         .badge {
             background: #ffde59;
-            padding: 5px 22px;
+            padding: 6px 26px;
             border-radius: 60px;
             color: #b12a1a;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: bold;
-            box-shadow: inset 0 -2px 0 #c4a123;
+            box-shadow: inset 0 -3px 0 #c4a123, 0 5px 10px rgba(0,0,0,0.2);
+            animation: badgeGlow 2s infinite;
+        }
+
+        @keyframes badgeGlow {
+            0% { box-shadow: inset 0 -3px 0 #c4a123, 0 0 0 #ffde59; }
+            50% { box-shadow: inset 0 -3px 0 #c4a123, 0 0 15px #ffde59; }
+            100% { box-shadow: inset 0 -3px 0 #c4a123, 0 0 0 #ffde59; }
         }
 
         .sub {
-            font-size: 0.8rem;
-            opacity: 0.92;
-            margin-top: 8px;
+            font-size: 0.85rem;
+            margin-top: 10px;
             display: flex;
-            gap: 18px;
-            font-weight: 500;
+            gap: 20px;
+            letter-spacing: 0.5px;
         }
 
         .stats {
@@ -77,151 +105,195 @@
             color: #ffefcf;
             display: flex;
             justify-content: space-between;
-            padding: 12px 25px;
+            padding: 15px 30px;
             font-weight: bold;
-            font-size: 1.3rem;
-            border-bottom: 2px solid #f5a623;
+            font-size: 1.4rem;
+            border-bottom: 3px solid #f5a623;
         }
 
         .score, .streak {
-            background: #00000055;
-            padding: 5px 22px;
-            border-radius: 50px;
-            backdrop-filter: blur(3px);
+            background: #00000077;
+            padding: 6px 26px;
+            border-radius: 60px;
+            backdrop-filter: blur(5px);
+            transition: all 0.2s;
         }
 
         .streak {
             background: #f77f00;
             color: #2d1b0f;
+            animation: pulseStreak 1s infinite;
+        }
+
+        @keyframes pulseStreak {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); background: #ff9f3a; }
+            100% { transform: scale(1); }
         }
 
         .game-area {
-            padding: 28px 18px 20px;
+            padding: 30px 20px 25px;
         }
 
         .question-panel {
-            background: #ffefdb;
-            border-radius: 65px;
-            padding: 28px 12px;
+            background: linear-gradient(145deg, #fff2e2, #ffe2c4);
+            border-radius: 70px;
+            padding: 32px 15px;
             text-align: center;
-            box-shadow: inset 0 1px 5px #ffdeae, 0 12px 20px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
+            box-shadow: 0 20px 30px rgba(0,0,0,0.15), inset 0 1px 4px white;
+            margin-bottom: 25px;
+            transition: all 0.3s;
         }
 
         .tamil-phrase {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 800;
             font-family: 'Noto Sans Tamil', monospace;
             background: white;
             display: inline-block;
-            padding: 12px 25px;
-            border-radius: 100px;
-            box-shadow: 0 8px 0 #b97942;
-            letter-spacing: 2px;
-            color: #392812;
-            word-break: keep-all;
+            padding: 16px 32px;
+            border-radius: 120px;
+            box-shadow: 0 12px 0 #b97942, 0 8px 20px rgba(0,0,0,0.2);
+            letter-spacing: 3px;
+            color: #2c1a0c;
+            transition: all 0.2s;
+            animation: floatText 4s infinite ease;
+        }
+
+        @keyframes floatText {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+            100% { transform: translateY(0px); }
         }
 
         .question-hint {
-            font-size: 0.95rem;
-            margin-top: 18px;
-            background: #ffe2b5;
+            font-size: 1rem;
+            margin-top: 22px;
+            background: #ffddb0;
             display: inline-block;
-            padding: 6px 20px;
-            border-radius: 40px;
+            padding: 8px 28px;
+            border-radius: 50px;
             font-weight: bold;
-            color: #b64926;
+            color: #a44110;
+            box-shadow: inset 0 1px 4px rgba(0,0,0,0.05), 0 2px 6px rgba(0,0,0,0.1);
         }
 
         .options {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 14px;
-            margin: 20px 0 10px;
+            gap: 18px;
+            margin: 25px 0 15px;
         }
 
         .opt-btn {
-            background: #ffd966;
+            background: linear-gradient(120deg, #ffda7c, #ffcd5c);
             border: none;
             font-size: 1rem;
             font-family: 'Noto Sans Tamil', monospace;
             font-weight: bold;
-            padding: 10px 16px;
-            min-width: 110px;
-            border-radius: 60px;
+            padding: 12px 20px;
+            min-width: 120px;
+            border-radius: 70px;
             color: #2f2418;
             cursor: pointer;
-            box-shadow: 0 6px 0 #b47234;
-            transition: 0.05s linear;
+            box-shadow: 0 8px 0 #b47234;
+            transition: 0.07s linear;
             text-align: center;
+            backdrop-filter: blur(2px);
+            animation: optionFade 0.4s ease-out;
+        }
+
+        @keyframes optionFade {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
         }
 
         .opt-btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 2px 0 #b47234;
+            transform: translateY(5px);
+            box-shadow: 0 3px 0 #b47234;
+        }
+
+        .opt-btn:hover {
+            background: #ffea8a;
+            transform: scale(1.02);
         }
 
         .feedback {
             text-align: center;
             font-weight: bold;
-            font-size: 1.15rem;
-            margin: 12px 0;
-            padding: 12px;
-            border-radius: 50px;
+            font-size: 1.2rem;
+            margin: 15px 0;
+            padding: 14px;
+            border-radius: 80px;
             background: #fff1e0;
+            transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            letter-spacing: 0.5px;
         }
 
         .next-btn {
-            background: #2e9c5e;
+            background: linear-gradient(95deg, #2e9c5e, #248f52);
             color: white;
             border: none;
             width: 85%;
-            padding: 14px;
-            font-size: 1.3rem;
+            padding: 16px;
+            font-size: 1.4rem;
             font-weight: bold;
-            border-radius: 50px;
-            margin: 10px auto 8px;
+            border-radius: 60px;
+            margin: 10px auto 10px;
             display: block;
             cursor: pointer;
-            box-shadow: 0 6px 0 #1a5a37;
-            transition: 0.05s linear;
+            box-shadow: 0 8px 0 #1a5a37;
+            transition: 0.07s linear;
+            font-family: inherit;
         }
 
         .next-btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 2px 0 #1a5a37;
+            transform: translateY(5px);
+            box-shadow: 0 3px 0 #1a5a37;
         }
 
         .reset-btn {
-            background: #f28444;
-            box-shadow: 0 6px 0 #bd5727;
-            margin-bottom: 20px;
+            background: linear-gradient(95deg, #f28444, #e56a2c);
+            box-shadow: 0 8px 0 #bd5727;
+            margin-bottom: 25px;
             width: 65%;
         }
 
         .footer {
-            background: #eddabc;
+            background: #eedbc0;
             text-align: center;
-            padding: 12px;
+            padding: 14px;
             font-size: 0.7rem;
-            color: #875a2c;
-            border-top: 2px solid #ffcf8a;
+            color: #7a4a1f;
+            border-top: 3px solid #ffcf8a;
+            font-weight: 500;
         }
 
-        @keyframes popGlow {
+        @keyframes shakeGlow {
             0% { transform: scale(1); text-shadow: 0 0 0 gold; }
-            70% { transform: scale(1.08); background: #ffbc6e; box-shadow: 0 0 12px gold; }
-            100% { transform: scale(1); }
+            80% { transform: scale(1.18); background: #ffbd71; box-shadow: 0 0 20px gold; }
+            100% { transform: scale(1); text-shadow: 0 0 5px orange; }
         }
-        .correct-pop {
-            animation: popGlow 0.3s ease;
+        .correct-burst {
+            animation: shakeGlow 0.35s ease-out;
         }
 
-        @media (max-width: 520px) {
-            .tamil-phrase { font-size: 1.5rem; padding: 6px 16px; }
-            .opt-btn { font-size: 0.85rem; min-width: 85px; padding: 6px 8px; }
-            .stats { font-size: 1.1rem; }
+        @keyframes wrongShake {
+            0% { transform: translateX(0px); }
+            25% { transform: translateX(-7px); background: #ffb4a2; }
+            75% { transform: translateX(7px); background: #ffb4a2; }
+            100% { transform: translateX(0px); }
+        }
+        .wrong-shake {
+            animation: wrongShake 0.25s ease-in-out;
+        }
+
+        @media (max-width: 550px) {
+            .tamil-phrase { font-size: 1.5rem; padding: 10px 20px; }
+            .opt-btn { font-size: 0.85rem; min-width: 95px; padding: 8px 12px; }
+            .stats { font-size: 1.1rem; padding: 12px 20px; }
+            .header h1 { font-size: 1.6rem; }
         }
     </style>
 </head>
@@ -230,9 +302,9 @@
     <div class="header">
         <h1>
             <span class="badge">🔗 புணரியல்</span>
-            <span>⚡ PEPSI கேம்</span>
+            <span>✨ ANIMATION ARCADE</span>
         </h1>
-        <div class="sub">📖 தொல்காப்பியம் · எழுத்ததிகாரம் · புணரியல் · மொழிப் புணர்ச்சி விதிகள்</div>
+        <div class="sub">📜 தொல்காப்பியம் · எழுத்ததிகாரம் · புணரியல் · சிறப்பு அனிமேஷன் பதிப்பு</div>
     </div>
     <div class="stats">
         <div class="score">🏆 மதிப்பெண்: <span id="scoreVal">0</span></div>
@@ -241,64 +313,55 @@
     <div class="game-area">
         <div class="question-panel">
             <div class="tamil-phrase" id="questionLetter">மரம் + கு</div>
-            <div class="question-hint" id="questionHint">புணர்ச்சி விதி? (இயல்பு/திரிபு)</div>
+            <div class="question-hint" id="questionHint">✨ புணர்ச்சி விதியைக் கண்டுபிடி ✨</div>
         </div>
         <div class="options" id="optionsContainer"></div>
-        <div class="feedback" id="feedbackMsg">✨ புணர்ச்சி விதியைத் தேர்ந்தெடு — மொழி இணைப்பின் அற்புதம் ✨</div>
-        <button class="next-btn" id="nextBtn">➡ அடுத்த புணர்ச்சி</button>
-        <button class="next-btn reset-btn" id="resetBtn">🔄 புதிய ஆட்டம்</button>
+        <div class="feedback" id="feedbackMsg">⚡ பதிலைத் தேர்ந்தெடு — புணரியல் அதிரடி ⚡</div>
+        <button class="next-btn" id="nextBtn">➡ அடுத்த புணர்ச்சி 🎯</button>
+        <button class="next-btn reset-btn" id="resetBtn">🔄 புதிய ஆட்டம் (சூப்பர்)</button>
     </div>
     <div class="footer">
-        🧠 தொல்காப்பியம் புணரியல் (1-40) · மெய்/உயிர் ஈறு, வேற்றுமை உருபுகள் (ஐ,கு,இன்,அது,கண்), சாரியைகள் (இன்னே, அத்தே, அம்மே), வல்லெழுத்து மிகுதல், மெய் பிறிதாதல், கெடுதல், உடம்படுமெய்
+        🧠 40+ புணரியல் நூற்பாக்கள் · வல்லெழுத்து மிகுதல் · உடம்படுமெய் · சாரியைகள் · மெய் பிறிதாதல் · கெடுதல்
     </div>
 </div>
 
 <script>
-    // --------------------------------------------------------------
-    // புணரியல் விதிகள் — தொல்காப்பிய எழுத்ததிகாரம் (நூற்பாக்கள் 1-40)
-    // முக்கிய கருப்பொருள்கள்:
-    // - மெய் ஈறு, உயிர் ஈறு, உயிர்மெய் ஈறு (1-4)
-    // - நிறுத்த சொல் + குறித்து வரு கிளவி புணர்ச்சி (5-6)
-    // - திரிபு வகைகள்: மெய் பிறிதாதல், மிகுதல், குன்றல் (7)
-    // - வேற்றுமை உருபுகள்: ஐ, கு, இன், அது, கண் (11)
-    // - வல்லெழுத்து மிகுதல் வேண்டும் (12)
-    // - ஆறன் உருபின் அகரம் கெடுதல் (13)
-    // - சாரியைகள்: இன்னே, வற்றே, அத்தே, அம்மே, ஒன்னே, ஆனே, அக்கே, இக்கே, அன் (17)
-    // - அம்மின் இறுதி க ச த வரும்போது ங ஞ ந ஆதல் (27)
-    // - அத்தே/வற்றே முன் வல்லெழுத்து மிகும் (31)
-    // - உடம்படுமெய் (38)
-    // --------------------------------------------------------------
+    // ==============================================================
+    // புணரியல் விதிகள் — தொல்காப்பியம் (1-40) | ANIMATION EDITION
+    // கேள்விகள்: வேற்றுமை உருபு, சாரியை, மெய்த்திரிபு, மிகுதல், கெடுதல்
+    // ==============================================================
 
     const questionBank = [
-        // அடிப்படை ஈறு விதிகள் (1-4)
-        { display: "மரம் (மெய்ஈறு)", type: "மெய் ஈற்றுச் சொல்லின் நிலை?", correct: "புள்ளியொடு நிலையல்", options: ["புள்ளியொடு நிலையல்", "உயிர் சேர்க்கை", "மெய் கெடும்", "உயிர்மெய் ஆகும்"], hint: "மெய் ஈறு எல்லாம் புள்ளியொடு நிலையல் (2)" },
-        { display: "குற்றியலுகரம் ஈறு", type: "இதன் புணர்ச்சி நிலை?", correct: "மெய்யை ஒத்தது", options: ["மெய்யை ஒத்தது", "உயிரை ஒத்தது", "எப்போதும் கெடும்", "இரட்டும்"], hint: "குற்றியலுகரமும் அற்று என மொழிப (3)" },
+        // அடிப்படை ஈறு விதிகள்
+        { display: "மரம் (மெய்ஈறு)", type: "மெய் ஈற்று நிலை?", correct: "புள்ளியொடு நிலையல்", options: ["புள்ளியொடு நிலையல்", "உயிர் சேர்க்கை", "மெய் கெடும்", "உயிர்மெய் ஆகும்"], hint: "மெய் ஈறு எல்லாம் புள்ளியொடு நிலையல் (2)" },
+        { display: "குற்றியலுகரம் (கு)", type: "இதன் புணர்ச்சி இயல்பு?", correct: "மெய்யை ஒத்தது", options: ["மெய்யை ஒத்தது", "உயிரை ஒத்தது", "எப்போதும் கெடும்", "இரட்டும்"], hint: "குற்றியலுகரமும் அற்று என மொழிப (3)" },
         { display: "சென்றான் (உயிர்மெய் ஈறு)", type: "உயிர்மெய் ஈறு எவ்வாறு?", correct: "உயிர் ஈற்று இயல்பு", options: ["உயிர் ஈற்று இயல்பு", "மெய் ஈற்று இயல்பு", "எப்போதும் கெடும்", "சாரியை சேர்கும்"], hint: "உயிர்மெய் ஈறும் உயிர் ஈற்று இயற்றே (4)" },
         // வேற்றுமை உருபுகள் (11)
-        { display: "வேற்றுமை உருபுகள்", type: "புணரியலில் கூறப்படும் ஆறு உருபுகள்?", correct: "ஐ, கு, இன், அது, கண்", options: ["ஐ, கு, இன், அது, கண்", "அ, இ, உ, கு, ஐ", "இன், அது, ஒன், கு", "சு, னு, கு, ஐ"], hint: "ஐ ஒடு கு இன் அது கண் என்னும் அவ் ஆறு என்ப வேற்றுமை உருபே (11)" },
+        { display: "வேற்றுமை உருபுகள் (6)", type: "புணரியலில் கூறப்படும் உருபுகள்?", correct: "ஐ, கு, இன், அது, கண்", options: ["ஐ, கு, இன், அது, கண்", "அ, இ, உ, கு, ஐ", "இன், அது, ஒன், கு", "சு, னு, கு, ஐ"], hint: "ஐ ஒடு கு இன் அது கண் என்னும் அவ் ஆறு என்ப (11)" },
         // வல்லெழுத்து மிகுதல் (12)
-        { display: "மரம் + கு", type: "வல்லெழுத்து முதலிய உருபிற்கு என்ன விதி?", correct: "ஒற்று மிகுதல் வேண்டும்", options: ["ஒற்று மிகுதல் வேண்டும்", "மெய் கெடுதல்", "உயிர் நெடிதல்", "எதுவும் வேண்டாம்"], hint: "வல்லெழுத்து முதலிய வேற்றுமை உருபிற்கு ஒல்வழி ஒற்று இடை மிகுதல் வேண்டும் (12)" },
+        { display: "மரம் + கு", type: "வல்லெழுத்து முதல் உருபிற்கு?", correct: "ஒற்று மிகுதல் வேண்டும்", options: ["ஒற்று மிகுதல் வேண்டும்", "மெய் கெடுதல்", "உயிர் நெடிதல்", "எதுவும் வேண்டாம்"], hint: "வல்லெழுத்து முதலிய வேற்றுமை உருபிற்கு ஒல்வழி ஒற்று இடை மிகுதல் வேண்டும் (12)" },
         { display: "காடு + கு", type: "இங்கு என்ன மாற்றம்?", correct: "ட் + கு → ட்கு (ஒற்று மிகும்)", options: ["ட் + கு → ட்கு (ஒற்று மிகும்)", "உகரம் கெடும்", "கு → க்கு", "மெய் பிறிதாதல்"], hint: "வல்லெழுத்து மிகுதல்: கு, சு, து, பு, று முன் ஒற்று மிகும்" },
         // ஆறன் உருபின் அகரக் கெடுதல் (13)
         { display: "ஆறு + அன்", type: "ஆறன் உருபிற்கு முன்?", correct: "அகரம் கெடும்", options: ["அகரம் கெடும்", "அகரம் நெடிலாகும்", "ஒற்று மிகும்", "உகரம் சேர்கும்"], hint: "ஆறன் உருபின் அகரக் கிளவி ஈறு ஆகு அகர முனைக் கெடுதல் வேண்டும் (13)" },
         // சாரியைகள் (17)
-        { display: "சாரியை வகை", type: "இவற்றில் சாரியை அல்லாதது?", correct: "மிகுதல்", options: ["மிகுதல்", "இன்னே", "வற்றே", "அத்தே"], hint: "இன்னே, வற்றே, அத்தே, அம்மே, ஒன்னே, ஆனே, அக்கே, இக்கே, அன் என்ப சாரியை மொழியே (17)" },
+        { display: "சாரியை வகை", type: "இவற்றில் சாரியை அல்லாதது?", correct: "மிகுதல்", options: ["மிகுதல்", "இன்னே", "வற்றே", "அத்தே"], hint: "இன்னே, வற்றே, அத்தே, அம்மே, ஒன்னே, ஆனே, அக்கே, இக்கே, அன் என்ப சாரியை (17)" },
         { display: "இன்னே சாரியை", type: "இன்னின் இகரம் எப்போது கெடும்?", correct: "ஆவின் இறுதி முன்", options: ["ஆவின் இறுதி முன்", "உயிர் முன்", "மெய் முன் எப்போதும்", "ஒருபோதும் கெடாது"], hint: "இன்னின் இகரம் ஆவின் இறுதி முன்னர்க் கெடுதல் உரித்தும் ஆகும் (18)" },
         // அம்மின் மெய் திரிதல் (27)
         { display: "அம்மின் + க", type: "அம்மின் இறுதி மெய் மாற்றம்?", correct: "ங ஆகும்", options: ["ங ஆகும்", "ஞ ஆகும்", "ந ஆகும்", "ம ஆகும்"], hint: "அம்மின் இறுதி க ச தக் காலை தன் மெய் திரிந்து ங ஞ ந ஆகும் (27)" },
         { display: "அம்மின் + ச", type: "ச முன் அம்மின் மாற்றம்?", correct: "ஞ ஆகும்", options: ["ஞ ஆகும்", "ங", "ந", "ய"], hint: "க → ங, ச → ஞ, த → ந" },
         { display: "அம்மின் + த", type: "த முன் மாற்றம்?", correct: "ந ஆகும்", options: ["ந ஆகும்", "ங", "ஞ", "ன"], hint: "தகாரம் வந்தால் அம்மின் → ந" },
         // அத்தே/வற்றே விதி (31)
-        { display: "அத்தே + பெயர்", type: "அத்தே முன் வல்லெழுத்து?", correct: "மிகும்", options: ["மிகும்", "குறையும்", "மெய் பிறிதாகும்", "எதுவும் இல்லை"], hint: "அத்தே வற்றே ஆயிரு மொழிமேல் ஒற்று மெய் கெடுதல் ... அவற்று முன் வரூஉம் வல்லெழுத்து மிகுமே (31)" },
-        // காரம்/கரம்/கான் சாரியை (32-35)
-        { display: "காரம்/கரம்/கான்", type: "இவற்றில் நெட்டெழுத்து இல்லாதது?", correct: "கரமும் கானும்", options: ["கரமும் கானும்", "காரமும் கரமும்", "காரமும் கானும்", "மூன்றும் நெட்டெழுத்து"], hint: "கரமும் கானும் நெட்டெழுத்து இலவே (33); வரன்முறை மூன்றும் குற்றெழுத்து உடைய (34)" },
+        { display: "அத்தே + பெயர்", type: "அத்தே முன் வல்லெழுத்து?", correct: "மிகும்", options: ["மிகும்", "குறையும்", "மெய் பிறிதாகும்", "எதுவும் இல்லை"], hint: "அத்தே வற்றே ஆயிரு மொழிமேல் ... அவற்று முன் வரூஉம் வல்லெழுத்து மிகுமே (31)" },
+        // காரம்/கரம்/கான் (32-35)
+        { display: "காரம்/கரம்/கான்", type: "இவற்றில் நெட்டெழுத்து இல்லாதது?", correct: "கரமும் கானும்", options: ["கரமும் கானும்", "காரமும் கரமும்", "காரமும் கானும்", "மூன்றும் நெட்டெழுத்து"], hint: "கரமும் கானும் நெட்டெழுத்து இலவே (33); மூன்றும் குற்றெழுத்து உடைய (34)" },
         { display: "ஐகாரம் + கான்", type: "ஐகாரம் கானொடு தோன்றுமா?", correct: "தோன்றும்", options: ["தோன்றும்", "தோன்றாது", "எப்போதும் இல்லை", "ஔகாரமாகும்"], hint: "ஐகார ஔகாரம் கானொடும் தோன்றும் (35)" },
         // உடம்படுமெய் (38)
         { display: "உயிர் + உயிர் வரும்போது", type: "புணர்ச்சியில் எது வரும்?", correct: "உடம்படுமெய்", options: ["உடம்படுமெய்", "மெய் கெடும்", "உயிர் நெடிலாகும்", "சாரியை சேர்கும்"], hint: "எல்லா மொழிக்கும் உயிர் வரு வழியே உடம்படுமெய்யின் உருபு கொளல் வரையார் (38)" },
-        { display: "புணர்ச்சித் திரிபுகள்", type: "மூன்று திரிபுகள் யாவை?", correct: "மெய் பிறிதாதல், மிகுதல், குன்றல்", options: ["மெய் பிறிதாதல், மிகுதல், குன்றல்", "இயல்பு, திரிபு, கெடுதல்", "ஒற்று, நெடில், குறில்", "சாரியை, உருபு, இடைநிலை"], hint: "மெய் பிறிது ஆதல் மிகுதல் குன்றல் என்று இவ் என மொழிப திரியும் ஆறே (7)" },
-        // மெய் பிறிதாதல் உதாரணம் (27 இன் பகுதி)
+        { display: "புணர்ச்சித் திரிபுகள் (மூன்று)", type: "மூன்று திரிபுகள் யாவை?", correct: "மெய் பிறிதாதல், மிகுதல், குன்றல்", options: ["மெய் பிறிதாதல், மிகுதல், குன்றல்", "இயல்பு, திரிபு, கெடுதல்", "ஒற்று, நெடில், குறில்", "சாரியை, உருபு, இடைநிலை"], hint: "மெய் பிறிது ஆதல் மிகுதல் குன்றல் என்று இவ் என மொழிப திரியும் ஆறே (7)" },
         { display: "வேற்றுமை அல்வழிப் புணர்ச்சி", type: "இயல்பு எத்தனை?", correct: "ஒன்றே", options: ["ஒன்றே", "இரண்டு", "மூன்று", "நான்கு"], hint: "மூன்றே திரிபு இடன் ஒன்றே இயல்பு என ஆங்கு அந் நான்கே மொழி புணர் இயல்பே (6)" },
-        { display: "புள்ளி ஈற்று முன் உயிர்", type: "புள்ளி ஈற்று முன் உயிர் தனித்து இயலுமா?", correct: "இயலாது", options: ["இயலாது", "இயலும்", "சில இடத்தில்", "எப்போதும் இயலும்"], hint: "புள்ளி ஈற்று முன் உயிர் தனித்து இயலாது மெய்யொடும் சிவணும் (36)" }
+        { display: "புள்ளி ஈற்று முன் உயிர்", type: "புள்ளி ஈற்று முன் உயிர் தனித்து இயலுமா?", correct: "இயலாது", options: ["இயலாது", "இயலும்", "சில இடத்தில்", "எப்போதும் இயலும்"], hint: "புள்ளி ஈற்று முன் உயிர் தனித்து இயலாது மெய்யொடும் சிவணும் (36)" },
+        { display: "மெய் உயிர் நீங்கின்", type: "மெய் உயிரை இழந்தால்?", correct: "தன் உரு ஆகும்", options: ["தன் உரு ஆகும்", "மெய் கெடும்", "உயிர் சேர்கும்", "இரட்டும்"], hint: "மெய் உயிர் நீங்கின் தன் உரு ஆகும் (37)" },
+        { display: "அத்தின் அகரம்", type: "அத்தின் அகரம் அகர முன்?", correct: "இல்லை", options: ["இல்லை", "உண்டு", "நெடிலாகும்", "குறுகும்"], hint: "அத்தின் அகரம் அகர முனை இல்லை (23)" }
     ];
 
     function shuffleArray(arr) {
@@ -311,12 +374,11 @@
 
     let activeList = [];
     let currentIdx = 0;
-    let score = 0;
-    let streak = 0;
-    let answered = false;
+    let totalScore = 0;
+    let streakCount = 0;
+    let answerLock = false;
     let currentQ = null;
 
-    // DOM
     const phraseEl = document.getElementById("questionLetter");
     const hintEl = document.getElementById("questionHint");
     const optionsDiv = document.getElementById("optionsContainer");
@@ -327,83 +389,95 @@
     const resetBtn = document.getElementById("resetBtn");
 
     function updateUI() {
-        scoreSpan.innerText = score;
-        streakSpan.innerText = streak;
+        scoreSpan.innerText = totalScore;
+        streakSpan.innerText = streakCount;
+    }
+
+    function animateCorrect(element) {
+        element.classList.add("correct-burst");
+        setTimeout(() => element.classList.remove("correct-burst"), 400);
+    }
+
+    function animateWrong(element) {
+        element.classList.add("wrong-shake");
+        setTimeout(() => element.classList.remove("wrong-shake"), 350);
     }
 
     function loadQuestion() {
         if (currentIdx >= activeList.length) {
-            phraseEl.innerText = "🏆🎉";
-            hintEl.innerText = "புணரியல் வெற்றி! எல்லா விதிகளும் கற்றாய்!";
-            optionsDiv.innerHTML = '<button class="opt-btn" disabled>✨ ஆட்டம் நிறைவு ✨</button>';
-            feedbackDiv.innerHTML = "அருமை! மொழிப் புணர்ச்சியில் தேர்ச்சி பெற்றாய்! மீண்டும் தொடங்கு.";
+            phraseEl.innerText = "🏆🔥 வெற்றி! 🔥🏆";
+            hintEl.innerText = "புணரியல் முழு வெற்றி! மீண்டும் விளையாடு.";
+            optionsDiv.innerHTML = '<button class="opt-btn" disabled>✨ கேம் முடிந்தது ✨</button>';
+            feedbackDiv.innerHTML = "🎉 அருமை! தொல்காப்பிய புணர்ச்சி விதிகள் அனைத்தும் கற்றாய்! 🎉";
             nextBtn.disabled = true;
             nextBtn.style.opacity = "0.6";
             return;
         }
         nextBtn.disabled = false;
         nextBtn.style.opacity = "1";
-        answered = false;
+        answerLock = false;
         currentQ = activeList[currentIdx];
         phraseEl.innerText = currentQ.display;
-        hintEl.innerText = currentQ.hint || "புணர்ச்சி விதியைத் தேர்வு செய்";
+        hintEl.innerText = currentQ.hint || "👉 விதியைத் தேர்ந்தெடு 👈";
         let opts = [...new Set([...currentQ.options, currentQ.correct])];
-        const shuffled = shuffleArray(opts);
+        const shuffledOpts = shuffleArray(opts);
         optionsDiv.innerHTML = "";
-        shuffled.forEach(opt => {
+        shuffledOpts.forEach(opt => {
             const btn = document.createElement("button");
             btn.innerText = opt;
             btn.classList.add("opt-btn");
             btn.addEventListener("click", () => handleAnswer(opt, btn));
             optionsDiv.appendChild(btn);
         });
-        feedbackDiv.innerHTML = "🔗 புணர்ச்சி விதி எது? தொல்காப்பிய வழியில் சரியானதைக் கிளிக் செய்!";
+        feedbackDiv.innerHTML = "🔮 எந்த விதி பொருந்தும்? சரியானதை கிளிக் செய்! 🔮";
         feedbackDiv.style.background = "#fff1e0";
         feedbackDiv.style.color = "#b64a1a";
     }
 
     function handleAnswer(selected, btn) {
-        if (answered) {
-            feedbackDiv.innerHTML = "✅ ஏற்கனவே விடை அளித்து விட்டாய்! அடுத்ததற்குச் செல்.";
+        if (answerLock) {
+            feedbackDiv.innerHTML = "⏳ ஏற்கனவே விடை சொல்லிவிட்டாய்! அடுத்ததற்குச் செல்.";
             return;
         }
         const isCorrect = (selected === currentQ.correct);
-        answered = true;
+        answerLock = true;
         if (isCorrect) {
-            let addPoints = 10;
-            if (streak >= 5) addPoints = 20;
-            else if (streak >= 3) addPoints = 15;
-            score += addPoints;
-            streak++;
-            feedbackDiv.innerHTML = `✅ சரியான புணர்ச்சி! +${addPoints} புள்ளிகள்! 🔥 தொடர் ${streak}`;
-            feedbackDiv.style.background = "#cfe9d8";
-            feedbackDiv.style.color = "#166534";
-            phraseEl.classList.add("correct-pop");
-            setTimeout(() => phraseEl.classList.remove("correct-pop"), 300);
+            let points = 10;
+            if (streakCount >= 6) points = 22;
+            else if (streakCount >= 3) points = 15;
+            totalScore += points;
+            streakCount++;
+            feedbackDiv.innerHTML = `✅ சரியான புணர்ச்சி! +${points} புள்ளிகள்! 🔥 தொடர் ${streakCount} 🔥`;
+            feedbackDiv.style.background = "#c8e6d9";
+            feedbackDiv.style.color = "#006f3c";
+            animateCorrect(phraseEl);
         } else {
-            streak = 0;
-            feedbackDiv.innerHTML = `❌ தவறு! சரியான விதி: "${currentQ.correct}". புணரியல் நூலை மீண்டும் பார்!`;
+            streakCount = 0;
+            feedbackDiv.innerHTML = `❌ தவறு! சரியான விதி: "${currentQ.correct}". புணரியல் நூலை மீண்டும் காண்க. ❌`;
             feedbackDiv.style.background = "#ffded5";
             feedbackDiv.style.color = "#b33a1c";
+            animateWrong(phraseEl);
         }
         updateUI();
         const allBtns = document.querySelectorAll(".opt-btn");
         allBtns.forEach(b => {
             b.disabled = true;
             if (b.innerText === currentQ.correct) {
-                b.style.background = "#5fa04f";
-                b.style.boxShadow = "0 4px 0 #2b6e2b";
+                b.style.background = "#5fad56";
+                b.style.boxShadow = "0 4px 0 #2f6b2f";
                 b.style.color = "white";
+                b.style.transform = "scale(1.02)";
             } else if (b === btn && !isCorrect) {
-                b.style.background = "#d9534f";
-                b.style.boxShadow = "0 4px 0 #9b2e2a";
+                b.style.background = "#e63946";
+                b.style.boxShadow = "0 4px 0 #9e2a2a";
+                b.style.color = "white";
             }
         });
     }
 
     function nextQuestion() {
-        if (!answered && currentIdx < activeList.length) {
-            feedbackDiv.innerHTML = "⚠️ ஒரு விதியைத் தேர்ந்தெடுக்கவும்! புணர்ச்சி அறிவை வெளிப்படுத்து.";
+        if (!answerLock && currentIdx < activeList.length) {
+            feedbackDiv.innerHTML = "⚠️ ஒரு விதியைத் தேர்ந்தெடுக்கவும்! புணர்ச்சி வலையில் சிக்கவும்!";
             feedbackDiv.style.background = "#ffefb9";
             return;
         }
@@ -418,22 +492,22 @@
     function resetGame() {
         activeList = shuffleArray([...questionBank]);
         currentIdx = 0;
-        score = 0;
-        streak = 0;
-        answered = false;
+        totalScore = 0;
+        streakCount = 0;
+        answerLock = false;
         updateUI();
         loadQuestion();
-        feedbackDiv.innerHTML = "🔄 புதிய புணர்ச்சிப் பயிற்சி! தொல்காப்பிய விதிகளைப் பொருத்து.";
+        feedbackDiv.innerHTML = "🔄 அற்புதம்! புதிய புணரியல் பயிற்சி! விதிகளைப் பொருத்து! 💥";
         feedbackDiv.style.background = "#fff1e0";
         nextBtn.disabled = false;
     }
 
-    // init
+    // kickstart
     activeList = shuffleArray([...questionBank]);
     currentIdx = 0;
-    score = 0;
-    streak = 0;
-    answered = false;
+    totalScore = 0;
+    streakCount = 0;
+    answerLock = false;
     updateUI();
     loadQuestion();
 
