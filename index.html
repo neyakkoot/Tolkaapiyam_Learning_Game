@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>தொல்காப்பியம் - கற்றல் விளையாட்டு மையம் | Tolkāppiyam Learning Arcade</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Noto+Sans+Tamil:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #fef5e6 0%, #ffe0b5 100%);
+            font-family: 'Inter', 'Noto Sans Tamil', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Main container */
+        .portal {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Hero Section - Pepsi style energetic */
+        .hero {
+            background: linear-gradient(135deg, #e33e2b 0%, #b82a1a 100%);
+            border-radius: 60px 60px 60px 60px;
+            padding: 2rem 2rem 1.8rem 2.5rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 25px 35px rgba(0, 0, 0, 0.2), 0 0 0 6px #ffde59, 0 0 0 12px #ffffff30;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s ease;
+        }
+
+        .hero:hover {
+            transform: translateY(-5px);
+        }
+
+        .hero::after {
+            content: "📖✨";
+            position: absolute;
+            right: 20px;
+            bottom: 10px;
+            font-size: 90px;
+            opacity: 0.15;
+            pointer-events: none;
+            transform: rotate(-5deg);
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: white;
+            text-shadow: 4px 4px 0 #831e12;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .hero-badge {
+            background: #ffde59;
+            padding: 8px 24px;
+            border-radius: 60px;
+            color: #b12a1a;
+            font-size: 1.2rem;
+            font-weight: 800;
+            box-shadow: inset 0 -2px 0 #c4a123, 0 8px 15px rgba(0,0,0,0.2);
+        }
+
+        .hero p {
+            color: #fff1db;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            max-width: 650px;
+            font-weight: 500;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .stats-mini {
+            display: flex;
+            gap: 30px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: #ffffff22;
+            backdrop-filter: blur(8px);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            color: white;
+            border: 1px solid #ffcd94;
+        }
+
+        /* Grid layout */
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin: 2rem 0 1.2rem 0;
+            padding-left: 1rem;
+            border-left: 8px solid #e33e2b;
+            color: #2d1b10;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.6rem;
+        }
+
+        /* Game Card */
+        .game-card {
+            background: #fffef9;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.08), 0 2px 5px rgba(0, 0, 0, 0.02);
+            transition: all 0.25s ease;
+            border: 1px solid #ffe0b5;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .game-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 28px 35px rgba(0, 0, 0, 0.15);
+            border-color: #ffcd94;
+        }
+
+        .card-header {
+            background: linear-gradient(115deg, #fff5e6, #ffe7cf);
+            padding: 1.2rem 1.2rem 0.8rem 1.5rem;
+            border-bottom: 3px solid #ffd7a5;
+        }
+
+        .card-header h3 {
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: #3a2412;
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tamil-tag {
+            background: #ffde59;
+            font-size: 0.7rem;
+            padding: 4px 12px;
+            border-radius: 30px;
+            color: #882e1c;
+            font-weight: 700;
+        }
+
+        .card-desc {
+            padding: 0.8rem 1.5rem 0.5rem 1.5rem;
+            color: #6b4c2a;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            flex-grow: 1;
+        }
+
+        .play-btn {
+            display: block;
+            background: linear-gradient(95deg, #2e9c5e, #248f52);
+            margin: 0.8rem 1.2rem 1.2rem 1.2rem;
+            text-align: center;
+            padding: 12px 0;
+            border-radius: 40px;
+            color: white;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: 0.1s linear;
+            box-shadow: 0 5px 0 #1a5a37;
+            font-family: inherit;
+        }
+
+        .play-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #1a5a37;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background: #eddabc;
+            border-radius: 60px;
+            color: #7a4a1f;
+            font-weight: 500;
+            font-size: 0.8rem;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .game-card {
+            animation: fadeUp 0.4s ease backwards;
+        }
+
+        /* Responsive */
+        @media (max-width: 700px) {
+            body {
+                padding: 1rem;
+            }
+            .hero h1 {
+                font-size: 1.9rem;
+            }
+            .section-title {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="portal">
+    <div class="hero">
+        <h1>
+            <span>🏛️ தொல்காப்பியம்</span>
+            <span class="hero-badge">⚡ LEARNING ARCADE</span>
+        </h1>
+        <p>🎮 30+ அறிவியல் விளையாட்டுகள் · இலக்கணம், மெய்ப்பாடு, புணர்ச்சி, அகம்/புறம் · தொல்காப்பியத்தை விளையாடிக் கற்றுக்கொள்ளுங்கள்!</p>
+        <div class="stats-mini">
+            <span class="stat-card">📚 எழுத்ததிகாரம்</span>
+            <span class="stat-card">🗣️ சொல்லதிகாரம்</span>
+            <span class="stat-card">📖 பொருளதிகாரம்</span>
+            <span class="stat-card">🎯 30+ விளையாட்டுகள்</span>
+        </div>
+    </div>
+
+    <div class="section-title">
+        <span>✨ எழுத்ததிகாரம் · இலக்கண விளையாட்டுகள்</span>
+    </div>
+    <div class="game-grid" id="eluttuGrid"></div>
+
+    <div class="section-title">
+        <span>🔗 சொல்லதிகாரம் · சொல்லும் பொருளும்</span>
+    </div>
+    <div class="game-grid" id="solGrid"></div>
+
+    <div class="section-title">
+        <span>🌸 பொருளதிகாரம் · அகம் & புறம் · மெய்ப்பாடு · உவமை</span>
+    </div>
+    <div class="game-grid" id="porulGrid"></div>
+
+    <div class="footer-note">
+        🧠 தொல்காப்பியர் வகுத்த நெறி — இன்றைய தலைமுறைக்கு விளையாட்டு வடிவில். ஒவ்வொரு விளையாட்டும் இலக்கண விதிகளை ஆழமாகப் பயிற்றுவிக்கும். 
+        <br>📂 GitHub: neyakkoot / Tolkaapiyam_Learning_Game
+    </div>
+</div>
+
+<script>
+    // --------------------------------------------------------------
+    // GAME INDEX (GitHub Pages or local repo)
+    // All HTML files from the repository structure
+    // --------------------------------------------------------------
+    const games = [
+        // ********** எழுத்ததிகாரம் **********
+        { name: "📜 நூல் மரபு", file: "Nu:nmarapu.html", category: "eluttu", desc: "குற்றெழுத்து, நெட்டெழுத்து, மெய் வகைகள் & புள்ளி மரபு — தொல்காப்பிய எழுத்து விதிகள்." },
+        { name: "🔊 பிறப்பியல் (Articulation)", file: "Pirappiyal.html", category: "eluttu", desc: "ஒலிகள் பிறக்கும் இடம்: நா, அண்ணம், இதழ், மிடறு — உச்சரிப்பு அறிவியல்." },
+        { name: "🎙️ பிறப்பியல் 2 (ANIMATION)", file: "Piṟappiyal_1.html", category: "eluttu", desc: "அனிமேஷன் உச்சரிப்பு விளையாட்டு — பிறப்பிடத்தைக் கண்டுபிடி." },
+        { name: "🔗 புணரியல்", file: "Puṇariyal.html", category: "eluttu", desc: "சொற்கள் இணையும் முறை: வல்லெழுத்து மிகுதல், சாரியைகள், உடம்படுமெய்." },
+        { name: "🗣️ மொழி மரபு", file: "Mozhimarapu.html", category: "eluttu", desc: "குற்றியலிகரம், குற்றியலுகரம், ஆய்தம், ஒற்று விதிகள் — அத்தியாவசிய விதிகள்." },
+        { name: "📚 தொகை மரபு", file: "TokaiMarapu.html", category: "eluttu", desc: "மெல்லெழுத்து மிகுதி, வேற்றுமைத் தொகை, உம்மைத் தொகை, அன்மொழித்தொகை." },
+        { name: "🔤 உருபியல்", file: "Urupiyal.html", category: "eluttu", desc: "வேற்றுமை உருபுகள் & சாரியைகள் — அ,ஆ,உ,ஊ,ஏ,ஔ இன்னே சாரியை." },
+        { name: "🎵 உயிர் மயங்கியல்", file: "UyirMayankiyal.html", category: "eluttu", desc: "உயிர் எழுத்துகள் இணையும் விதிகள், அகர இறுதிப் பெயர் + கசதப → ஒற்று மிகும்." },
+        { name: "🌀 புள்ளி மயங்கியல்", file: "PuḷḷiMayankiyal.html", category: "eluttu", desc: "ஞகாரம், ணகாரம், மகரம் முதலிய மெய்யெழுத்து இணைப்பு விதிகள்." },
+        { name: "🔡 குற்றியலுகரப் புணரியல்", file: "KuṟṟiyalukaraPuṇariyal.html", category: "eluttu", desc: "குற்றியலுகரம் மற்றும் எண்களின் புணர்ச்சி (ஒன்று, பத்து, நூறு, ஆயிரம்)." },
+
+        // ********** சொல்லதிகாரம் **********
+        { name: "📖 கிளவியாக்கம்", file: "Kiḷaviyākkam.html", category: "sol", desc: "உயர்திணை/அஃறிணை, ஆண்பால்/பெண்பால், பன்மை/ஒருமை — பெயரியல்." },
+        { name: "⚙️ வேற்றுமையியல்", file: "Vēṟṟumaiyiyal.html", category: "sol", desc: "ஏழு வேற்றுமைகள் + விளி (எட்டு) — எழுவாய், இரண்டாம் முதல் ஏழாம்." },
+        { name: "🔎 வேற்றுமை மயங்கியல்", file: "VēṟṟumaiMayankiyal.html", category: "sol", desc: "கண், ஐ, அது, கு, ஆன் உருபுகள் — அச்சக் கிளவி, ஆகுபெயர்." },
+        { name: "📢 விளி மரபு", file: "ViḷiMarapu.html", category: "sol", desc: "விளி கொள்ளும் பெயர்கள், உயர்திணை/அஃறிணை விளி விதிகள் (ஈ, ஆய், ஏ)." },
+        { name: "🏷️ பெயரியல்", file: "Peyariyal.html", category: "sol", desc: "உயர்திணை 15 பெயர்கள், அஃறிணை 15, இயற்பெயர், சினைப்பெயர், முறைப்பெயர்." },
+        { name: "⏳ வினையியல்", file: "Viṉaiyiyal.html", category: "sol", desc: "காலம் (இறப்பு, நிகழ்வு, எதிர்வு), தன்மை/முன்னிலை/படர்க்கை, வினையெச்சம்." },
+        { name: "🔗 இடையியல்", file: "Idaiyiyal.html", category: "sol", desc: "இடைச்சொற்கள்: மன்னை, தில்லை, கொன்னை, உம்மைச் சொற்கள் & அசைச்சொற்கள்." },
+        { name: "📖 உரியியல்", file: "Uriyiyal.html", category: "sol", desc: "உரிச்சொற்கள்: மிகுதி, இளமை, விரைவு, அச்சம், வலி — 98 வகை." },
+        { name: "✂️ எச்சவியல்", file: "Eccaviyal.html", category: "sol", desc: "இயற்சொல்/திரிசொல்/திசைச்சொல்/வடசொல் · நிரல்நிறை, சுண்ணம், அடிமறி, மொழிமாற்று." },
+
+        // ********** பொருளதிகாரம் **********
+        { name: "🌸 அகத்திணையியல்", file: "Akattiṇaiyiyal.html", category: "porul", desc: "5 அகத்திணைகள் (முல்லை, குறிஞ்சி, மருதம், நெய்தல், பாலை) + தெய்வங்கள் & பொழுதுகள்." },
+        { name: "⚔️ புறத்திணையியல்", file: "Puṟattiṇaiyiyal.html", category: "porul", desc: "7 புறத்திணைகள்: வெட்சி, வஞ்சி, உழிஞை, தும்பை, வாகை, காஞ்சி, பாடாண்." },
+        { name: "💕 களவியல்", file: "Kaḷaviyal.html", category: "porul", desc: "களவுக் காதல், குறிப்புகள் (9 வகை), பாங்கன் நிமித்தம் 12, தோழி/செவிலி பணிகள்." },
+        { name: "💑 கற்பியல்", file: "Kaṟpiyal.html", category: "porul", desc: "திருமணம், கற்பு ஒழுக்கம், புலவி/ஊடல், பரத்தை, 12 வாயில்கள்." },
+        { name: "🧠 பொருளியல்", file: "Poruḷiyal.html", category: "porul", desc: "இறைச்சி, உவமவாயில், கனவு, உள்ளுறை (5 வகை), சினம், பேதைமை, நல்குரவு." },
+        { name: "😊 மெய்ப்பாட்டியல்", file: "Meyppāṭṭiyal.html", category: "porul", desc: "8 மெய்ப்பாடுகள் (நகை, அழுகை, இளிவரல், மருட்கை, அச்சம், பெருமிதம், வெகுளி, உவகை)." },
+        { name: "🔍 உவமயியல்", file: "Uvamaiyiyal.html", category: "porul", desc: "உவம வகைகள் (வினை, பயன், மெய், உரு), பயனிலை/மெய்ப்பால்/உருவின் உவமங்கள்." },
+        { name: "📜 செய்யுளியல்", file: "Ceyyuḷiyal.html", category: "porul", desc: "செய்யுள் உறுப்புகள், 4 பாக்கள், தொடை (மோனை, எதுகை, முரண், இயைபு), 20+ வண்ணங்கள்." },
+        { name: "🌾 மரபியல்", file: "Marapiyal.html", category: "porul", desc: "இளமைப்பெயர்கள் (9), ஆண்/பெண் பெயர்கள், அறிவு நிலைகள் (1→6), அந்தணர்/அரசர் உரிமைகள்." }
+    ];
+
+    // Group by category
+    function renderGames() {
+        const eluttuGrid = document.getElementById("eluttuGrid");
+        const solGrid = document.getElementById("solGrid");
+        const porulGrid = document.getElementById("porulGrid");
+
+        eluttuGrid.innerHTML = "";
+        solGrid.innerHTML = "";
+        porulGrid.innerHTML = "";
+
+        games.forEach(game => {
+            const card = document.createElement("div");
+            card.className = "game-card";
+            card.style.animationDelay = `${Math.random() * 0.1}s`;
+            card.innerHTML = `
+                <div class="card-header">
+                    <h3>${game.name} <span class="tamil-tag">🎮</span></h3>
+                </div>
+                <div class="card-desc">${game.desc}</div>
+                <a href="${game.file}" class="play-btn" target="_blank" rel="noopener noreferrer">✨ விளையாடு ✨</a>
+            `;
+            if (game.category === "eluttu") eluttuGrid.appendChild(card);
+            else if (game.category === "sol") solGrid.appendChild(card);
+            else if (game.category === "porul") porulGrid.appendChild(card);
+        });
+    }
+
+    renderGames();
+</script>
+</body>
+</html>
