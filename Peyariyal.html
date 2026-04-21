@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>பெயரியல் - GRAMMAR ARCADE | தொல்காப்பியம்</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at 10% 20%, #fef0df, #ffbc70);
+            font-family: 'Segoe UI', 'Poppins', 'Noto Sans Tamil', system-ui, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: bgFlow 8s infinite alternate;
+        }
+
+        @keyframes bgFlow {
+            0% { background: radial-gradient(circle at 10% 20%, #fef0df, #ffbc70); }
+            100% { background: radial-gradient(circle at 90% 80%, #ffefcf, #ffa84e); }
+        }
+
+        .game-card {
+            max-width: 800px;
+            width: 100%;
+            background: #fffdf7;
+            border-radius: 85px 85px 70px 70px;
+            box-shadow: 0 40px 50px rgba(0, 0, 0, 0.28), 0 0 0 12px #ffde59, 0 0 0 18px #e33e2b;
+            overflow: hidden;
+            transition: transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #e33e2b, #c41f1f);
+            padding: 24px 26px 20px 32px;
+            color: white;
+            text-shadow: 4px 4px 0 #881e1a;
+            border-bottom: 6px solid #ffcd4a;
+            position: relative;
+        }
+
+        .header::after {
+            content: "📛⚡";
+            position: absolute;
+            right: 20px;
+            top: -5px;
+            font-size: 65px;
+            opacity: 0.2;
+            pointer-events: none;
+            transform: rotate(10deg);
+        }
+
+        .header h1 {
+            font-size: 1.9rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            font-weight: 900;
+        }
+
+        .badge {
+            background: #ffde59;
+            padding: 6px 28px;
+            border-radius: 60px;
+            color: #b12a1a;
+            font-size: 1.2rem;
+            font-weight: bold;
+            box-shadow: inset 0 -3px 0 #c4a123;
+            animation: badgePulse 2s infinite;
+        }
+
+        @keyframes badgePulse {
+            0% { transform: scale(1); box-shadow: inset 0 -3px 0 #c4a123; }
+            50% { transform: scale(1.02); box-shadow: inset 0 -3px 0 #c4a123, 0 0 12px #ffde59; }
+            100% { transform: scale(1); }
+        }
+
+        .sub {
+            font-size: 0.72rem;
+            margin-top: 8px;
+            display: flex;
+            gap: 20px;
+            letter-spacing: 0.3px;
+        }
+
+        .stats {
+            background: #2c1a10;
+            color: #ffefcf;
+            display: flex;
+            justify-content: space-between;
+            padding: 14px 32px;
+            font-weight: bold;
+            font-size: 1.4rem;
+            border-bottom: 3px solid #ffaa44;
+        }
+
+        .score, .streak {
+            background: #00000077;
+            padding: 6px 28px;
+            border-radius: 60px;
+            backdrop-filter: blur(4px);
+        }
+
+        .streak {
+            background: #f77f00;
+            color: #2c1a10;
+            animation: streakGlow 1.5s infinite;
+        }
+
+        @keyframes streakGlow {
+            0% { box-shadow: 0 0 0 0 #ffb347; }
+            50% { box-shadow: 0 0 0 6px #ffb34799; }
+            100% { box-shadow: 0 0 0 0 #ffb347; }
+        }
+
+        .game-area {
+            padding: 28px 22px 25px;
+        }
+
+        .question-panel {
+            background: linear-gradient(145deg, #fff2e2, #ffe0c4);
+            border-radius: 75px;
+            padding: 28px 15px;
+            text-align: center;
+            box-shadow: 0 20px 30px rgba(0,0,0,0.12), inset 0 1px 4px white;
+            margin-bottom: 22px;
+        }
+
+        .tamil-phrase {
+            font-size: 1.7rem;
+            font-weight: 800;
+            font-family: 'Noto Sans Tamil', monospace;
+            background: white;
+            display: inline-block;
+            padding: 16px 30px;
+            border-radius: 110px;
+            box-shadow: 0 12px 0 #bb8b5c;
+            letter-spacing: 3px;
+            color: #3a2412;
+            transition: all 0.1s ease;
+            animation: gentleFloat 3s infinite ease;
+        }
+
+        @keyframes gentleFloat {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .question-hint {
+            font-size: 0.85rem;
+            margin-top: 18px;
+            background: #ffeaaf;
+            display: inline-block;
+            padding: 8px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            color: #b64926;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 14px;
+            margin: 22px 0 15px;
+        }
+
+        .opt-btn {
+            background: linear-gradient(120deg, #ffda7c, #ffcd5c);
+            border: none;
+            font-size: 0.85rem;
+            font-family: 'Noto Sans Tamil', monospace;
+            font-weight: bold;
+            padding: 12px 14px;
+            min-width: 150px;
+            border-radius: 70px;
+            color: #2f2418;
+            cursor: pointer;
+            box-shadow: 0 7px 0 #b47234;
+            transition: 0.07s linear;
+            animation: btnRise 0.35s ease-out;
+        }
+
+        @keyframes btnRise {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .opt-btn:active {
+            transform: translateY(5px);
+            box-shadow: 0 2px 0 #b47234;
+        }
+
+        .opt-btn:hover {
+            background: #ffea8a;
+            transform: scale(1.02);
+        }
+
+        .feedback {
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.05rem;
+            margin: 12px 0;
+            padding: 14px;
+            border-radius: 70px;
+            background: #fff3e0;
+            transition: all 0.2s;
+        }
+
+        .next-btn {
+            background: linear-gradient(95deg, #2e9c5e, #248f52);
+            color: white;
+            border: none;
+            width: 85%;
+            padding: 15px;
+            font-size: 1.35rem;
+            font-weight: bold;
+            border-radius: 60px;
+            margin: 12px auto 10px;
+            display: block;
+            cursor: pointer;
+            box-shadow: 0 8px 0 #1a5a37;
+            transition: 0.07s linear;
+        }
+
+        .next-btn:active {
+            transform: translateY(5px);
+            box-shadow: 0 3px 0 #1a5a37;
+        }
+
+        .reset-btn {
+            background: linear-gradient(95deg, #f28444, #e56a2c);
+            box-shadow: 0 8px 0 #bd5727;
+            margin-bottom: 22px;
+            width: 65%;
+        }
+
+        .footer {
+            background: #f2e0c0;
+            text-align: center;
+            padding: 14px;
+            font-size: 0.63rem;
+            color: #8b5a2b;
+            border-top: 3px solid #ffd49f;
+            font-weight: 500;
+        }
+
+        @keyframes correctFlash {
+            0% { transform: scale(1); background: #ffbd71; box-shadow: 0 0 0 gold; }
+            80% { transform: scale(1.15); background: #ffa84d; box-shadow: 0 0 28px gold; }
+            100% { transform: scale(1); background: white; }
+        }
+        .correct-burst {
+            animation: correctFlash 0.4s ease-out;
+        }
+
+        @keyframes wrongShake {
+            0%,100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); background: #ffb4a2; }
+            75% { transform: translateX(8px); background: #ffb4a2; }
+        }
+        .wrong-shake {
+            animation: wrongShake 0.3s ease-in-out;
+        }
+
+        @media (max-width: 720px) {
+            .tamil-phrase { font-size: 1.2rem; padding: 10px 18px; letter-spacing: 2px; }
+            .opt-btn { font-size: 0.7rem; min-width: 125px; padding: 8px 6px; }
+            .stats { font-size: 1rem; padding: 12px 20px; }
+            .header h1 { font-size: 1.3rem; }
+            .score, .streak { padding: 4px 16px; }
+        }
+    </style>
+</head>
+<body>
+<div class="game-card">
+    <div class="header">
+        <h1>
+            <span class="badge">📛 பெயரியல்</span>
+            <span>✨ GRAMMAR ARCADE</span>
+        </h1>
+        <div class="sub">📜 தொல்காப்பியம் · சொல்லதிகாரம் · பெயரியல் · பெயர்ச்சொல் அதிரடி (43 நூற்பாக்கள்)</div>
+    </div>
+    <div class="stats">
+        <div class="score">🏆 மதிப்பெண்: <span id="scoreValue">0</span></div>
+        <div class="streak">🔥 தொடர்: <span id="streakValue">0</span></div>
+    </div>
+    <div class="game-area">
+        <div class="question-panel">
+            <div class="tamil-phrase" id="questionLetter">சொல் வகைகள்</div>
+            <div class="question-hint" id="questionHint">✨ பெயரியல் விதிகளைக் கண்டுபிடி ✨</div>
+        </div>
+        <div class="options" id="optionsContainer"></div>
+        <div class="feedback" id="feedbackMsg">⚡ பதிலைத் தேர்ந்தெடு — பெயரியல் விதிகளை வெல்லு ⚡</div>
+        <button class="next-btn" id="nextBtn">➡ அடுத்த கட்டம் 🎯</button>
+        <button class="next-btn reset-btn" id="resetBtn">🔄 புதிய ஆட்டம்</button>
+    </div>
+    <div class="footer">
+        🧠 தொல்காப்பியம் பெயரியல் (1-43) · பெயர் & வினை · உயர்திணை/அஃறிணை · ஆண்பால்/பெண்பால்/பலர்/ஒன்று/பல · உயர்திணைப் பெயர்கள் (15) · அஃறிணைப் பெயர்கள் (15) · இயற்பெயர்/சினைப்பெயர்/சினைமுதற்பெயர்/முறைப்பெயர் · தான்/தாம் · நீ/நீயிர் · ஒருவர்
+    </div>
+</div>
+
+<script>
+    // --------------------------------------------------------------
+    // பெயரியல் (தொல்காப்பியம் சொல்லதிகாரம்) 
+    // முக்கிய விதிகள் (1-43 சுருக்கம்):
+    // 1. சொல் இருவகை: பெயர், வினை (4)
+    // 2. இடைச்சொல், உரிச்சொல் அவற்றின் வழி (5)
+    // 3. உயர்திணைப் பெயர்கள்: அவன்/இவன்/உவன், அவள்/இவள்/உவள், அவர்/இவர்/உவர், யான்/யாம்/நாம், யாவன்/யாவள்/யாவர் (15) (8)
+    // 4. அஃறிணைப் பெயர்கள்: அது/இது/உது, ஆய்தப் பெயர், அவை/இவை/உவை, வகரப் பெயர், யாது/யா/யாவை (15) (13)
+    // 5. இயற்பெயர் 4: பெண்மை, ஆண்மை, பன்மை, ஒருமை (22)
+    // 6. சினைப்பெயர் 4: பெண்மை, ஆண்மை, பன்மை, ஒருமை (23)
+    // 7. சினைமுதற்பெயர் 4: பெண்மை, ஆண்மை, பன்மை, ஒருமை (24)
+    // 8. முறைப்பெயர் 2: பெண்மை, ஆண்மை (25)
+    // 9. தான் → ஒருமை, தாம் → பன்மை (30,31)
+    // 10. நீ → ஒருமை, நீயிர் → பன்மை (35,36)
+    // 11. ஒருவர் → இரு பாற்கும் உரித்து (37)
+    // --------------------------------------------------------------
+
+    const questionBank = [
+        // 1. சொல் வகைகள் (4)
+        { display: "சொல் எனப்படுபவை", correct: "பெயர், வினை", options: ["பெயர், வினை", "இடைச்சொல், உரிச்சொல்", "உயர்திணை, அஃறிணை", "ஒருமை, பன்மை"], hint: "சொல் எனப்படுப பெயரே வினை என்று ஆயிரண்டு என்ப (4)" },
+        // 2. இடைச்சொல், உரிச்சொல் (5)
+        { display: "இடைச்சொல், உரிச்சொல்", correct: "பெயர், வினையின் வழி தோன்றும்", options: ["பெயர், வினையின் வழி தோன்றும்", "தனியே வகை", "பெயருக்கு அடுத்தது", "வினைக்கு அடுத்தது"], hint: "இடைச்சொல் கிளவியும் உரிச்சொல் கிளவியும் அவற்று வழி மருங்கின் தோன்றும் என்ப (5)" },
+        // 3. உயர்திணைப் பெயர்கள் (8)
+        { display: "உயர்திணைப் பெயர்களின் எண்ணிக்கை (தொல்காப்பியம் கூறும் பதினைந்து)", correct: "15", options: ["15", "10", "20", "8"], hint: "அவன்,இவன்,உவன்... யாவன்,யாவள்,யாவர் என்னும் ஆவயின் மூன்றொடு அப் பதினைந்தும் பால் அறி வந்த உயர்திணைப் பெயரே (8)" },
+        // 4. அஃறிணைப் பெயர்கள் (13)
+        { display: "அஃறிணைப் பெயர்களின் எண்ணிக்கை (தொல்காப்பியம் கூறும் பதினைந்து)", correct: "15", options: ["15", "10", "20", "8"], hint: "அது,இது,உது... யாது,யா,யாவை என்னும் பெயரும் ஆவயின் மூன்றொடு அப் பதினைந்தும் பால் அறி வந்த அஃறிணைப் பெயரே (13)" },
+        // 5. இயற்பெயர் வகைகள் (22)
+        { display: "இயற்பெயரின் வகைகள் (எத்தனை?)", correct: "4 (பெண்மை, ஆண்மை, பன்மை, ஒருமை)", options: ["4", "2", "6", "8"], hint: "பெண்மை இயற்பெயர் ஆண்மை இயற்பெயர் பன்மை இயற்பெயர் ஒருமை இயற்பெயர் என்று அந் நான்கு என்ப இயற்பெயர் நிலையே (22)" },
+        // 6. சினைப்பெயர் வகைகள் (23)
+        { display: "சினைப்பெயரின் வகைகள் (எத்தனை?)", correct: "4 (பெண்மை, ஆண்மை, பன்மை, ஒருமை)", options: ["4", "2", "6", "8"], hint: "பெண்மைச் சினைப்பெயர் ஆண்மைச் சினைப்பெயர் பன்மைச் சினைப்பெயர் ஒருமைச் சினைப்பெயர் என்று அந் நான்கு என்ப சினைப்பெயர் நிலையே (23)" },
+        // 7. சினைமுதற்பெயர் வகைகள் (24)
+        { display: "சினைமுதற்பெயரின் வகைகள் (எத்தனை?)", correct: "4 (பெண்மை, ஆண்மை, பன்மை, ஒருமை)", options: ["4", "2", "6", "8"], hint: "பெண்மை சுட்டிய சினைமுதற்பெயரே... அந் நான்கு என்ப சினைமுதற்பெயரே (24)" },
+        // 8. முறைப்பெயர் வகைகள் (25)
+        { display: "முறைப்பெயரின் வகைகள் (எத்தனை?)", correct: "2 (பெண்மை, ஆண்மை)", options: ["2", "4", "6", "8"], hint: "பெண்மை முறைப்பெயர் ஆண்மை முறைப்பெயர் என்று ஆயிரண்டு என்ப முறைப்பெயர் நிலையே (25)" },
+        // 9. தான் vs தாம் (30,31)
+        { display: "தான் என் கிளவி", correct: "ஒருமைக்கு உரித்து", options: ["ஒருமைக்கு உரித்து", "பன்மைக்கு உரித்து", "இரண்டுக்கும்", "பெண்பாலுக்கு"], hint: "தான் என் கிளவி ஒருமைக்கு உரித்தே (31)" },
+        { display: "தாம் என் கிளவி", correct: "பன்மைக்கு உரித்து", options: ["பன்மைக்கு உரித்து", "ஒருமைக்கு உரித்து", "இரண்டுக்கும்", "ஆண்பாலுக்கு"], hint: "தாம் என் கிளவி பன்மைக்கு உரித்தே (30)" },
+        // 10. நீ vs நீயிர் (35,36)
+        { display: "நீ என் கிளவி", correct: "ஒருமைக்கு உரித்து", options: ["ஒருமைக்கு உரித்து", "பன்மைக்கு உரித்து", "இரண்டுக்கும்", "பெண்பாலுக்கு"], hint: "நீ என் கிளவி ஒருமைக்கு உரித்தே (35)" },
+        { display: "நீயிர் என் கிளவி", correct: "பன்மைக்கு உரித்து", options: ["பன்மைக்கு உரித்து", "ஒருமைக்கு உரித்து", "இரண்டுக்கும்", "ஆண்பாலுக்கு"], hint: "ஏனைக் கிளவி (நீயிர்) பன்மைக்கு உரித்தே (36)" },
+        // 11. ஒருவர் (37)
+        { display: "ஒருவர் என்னும் பெயர்நிலைக் கிளவி", correct: "இரு பாற்கும் உரித்து", options: ["இரு பாற்கும் உரித்து", "ஒருமைக்கு மட்டும்", "பன்மைக்கு மட்டும்", "ஆண்பாலுக்கு மட்டும்"], hint: "ஒருவர் என்னும் பெயர்நிலைக் கிளவி இரு பாற்கும் உரித்தே தெரியும் காலை (37)" },
+        // 12. எல்லாம் (32)
+        { display: "எல்லாம் என்னும் பெயர்நிலைக் கிளவி", correct: "பல்வழி நுதலிய நிலைத்து ஆகும்", options: ["பல்வழி நுதலிய நிலைத்து", "ஒருமை மட்டும்", "பன்மை மட்டும்", "உயர்திணை மட்டும்"], hint: "எல்லாம் என்னும் பெயர்நிலைக் கிளவி பல்வழி நுதலிய நிலைத்து ஆகும்மே (32)" },
+        // 13. பெண்மை சுட்டிய பெயர்கள் (26)
+        { display: "பெண்மை சுட்டிய எல்லாப் பெயரும்", correct: "ஒருத்திக்கு ஒன்றிய நிலையே", options: ["ஒருத்திக்கு ஒன்றிய நிலையே", "ஒருவருக்கு", "பலருக்கு", "இரண்டுக்கும்"], hint: "பெண்மை சுட்டிய எல்லாப் பெயரும் ஒன்றற்கும் ஒருத்திக்கும் ஒன்றிய நிலையே (26)" },
+        // 14. ஆண்மை சுட்டிய பெயர்கள் (27)
+        { display: "ஆண்மை சுட்டிய எல்லாப் பெயரும்", correct: "ஒருவற்கு ஒன்றிய நிலையே", options: ["ஒருவற்கு ஒன்றிய நிலையே", "ஒருத்திக்கு", "பலருக்கு", "இரண்டுக்கும்"], hint: "ஆண்மை சுட்டிய எல்லாப் பெயரும் ஒன்றற்கும் ஒருவற்கும் ஒன்றிய நிலையே (27)" }
+    ];
+
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let activeList = [];
+    let currentIdx = 0;
+    let totalScore = 0;
+    let currentStreak = 0;
+    let answerLock = false;
+    let currentQ = null;
+
+    const phraseEl = document.getElementById("questionLetter");
+    const hintEl = document.getElementById("questionHint");
+    const optionsDiv = document.getElementById("optionsContainer");
+    const feedbackDiv = document.getElementById("feedbackMsg");
+    const scoreSpan = document.getElementById("scoreValue");
+    const streakSpan = document.getElementById("streakValue");
+    const nextBtn = document.getElementById("nextBtn");
+    const resetBtn = document.getElementById("resetBtn");
+
+    function updateUI() {
+        scoreSpan.innerText = totalScore;
+        streakSpan.innerText = currentStreak;
+    }
+
+    function animateCorrect(el) {
+        el.classList.add("correct-burst");
+        setTimeout(() => el.classList.remove("correct-burst"), 450);
+    }
+
+    function animateWrong(el) {
+        el.classList.add("wrong-shake");
+        setTimeout(() => el.classList.remove("wrong-shake"), 350);
+    }
+
+    function loadQuestion() {
+        if (currentIdx >= activeList.length) {
+            phraseEl.innerText = "🏆📛";
+            hintEl.innerText = "பெயரியல் மாஸ்டர்! வெற்றி!";
+            optionsDiv.innerHTML = '<button class="opt-btn" disabled>✨ ஆட்டம் முடிந்தது ✨</button>';
+            feedbackDiv.innerHTML = "🎉 அருமை! பெயரியல் விதிகள் அனைத்தும் கற்றுக்கொண்டீர்கள்! 🎉";
+            nextBtn.disabled = true;
+            nextBtn.style.opacity = "0.6";
+            return;
+        }
+        nextBtn.disabled = false;
+        nextBtn.style.opacity = "1";
+        answerLock = false;
+        currentQ = activeList[currentIdx];
+        phraseEl.innerText = currentQ.display;
+        hintEl.innerText = currentQ.hint || "✨ விதியைத் தேர்ந்தெடு ✨";
+        let opts = [...new Set([...currentQ.options, currentQ.correct])];
+        const shuffled = shuffleArray(opts);
+        optionsDiv.innerHTML = "";
+        shuffled.forEach(opt => {
+            const btn = document.createElement("button");
+            btn.innerText = opt;
+            btn.classList.add("opt-btn");
+            btn.addEventListener("click", () => handleAnswer(opt, btn));
+            optionsDiv.appendChild(btn);
+        });
+        feedbackDiv.innerHTML = "📛 எந்த விதி பொருந்தும்? பெயரியலை ஆராய்!";
+        feedbackDiv.style.background = "#fff1e0";
+        feedbackDiv.style.color = "#b64a1a";
+    }
+
+    function handleAnswer(selected, btn) {
+        if (answerLock) {
+            feedbackDiv.innerHTML = "✅ ஏற்கனவே விடை அளித்துவிட்டீர்கள்! அடுத்ததற்குச் செல்.";
+            return;
+        }
+        const isCorrect = (selected === currentQ.correct);
+        answerLock = true;
+        if (isCorrect) {
+            let addPoints = 10;
+            if (currentStreak >= 5) addPoints = 22;
+            else if (currentStreak >= 3) addPoints = 15;
+            totalScore += addPoints;
+            currentStreak++;
+            feedbackDiv.innerHTML = `✅ சரியான விதி! +${addPoints} புள்ளிகள்! 🔥 தொடர் ${currentStreak}`;
+            feedbackDiv.style.background = "#cfe9d8";
+            feedbackDiv.style.color = "#166534";
+            animateCorrect(phraseEl);
+        } else {
+            currentStreak = 0;
+            feedbackDiv.innerHTML = `❌ தவறு! சரியான விதி: "${currentQ.correct}". பெயரியல் நூலை மீண்டும் பார்!`;
+            feedbackDiv.style.background = "#ffded5";
+            feedbackDiv.style.color = "#b33a1c";
+            animateWrong(phraseEl);
+        }
+        updateUI();
+        const allBtns = document.querySelectorAll(".opt-btn");
+        allBtns.forEach(b => {
+            b.disabled = true;
+            if (b.innerText === currentQ.correct) {
+                b.style.background = "#5fa04f";
+                b.style.boxShadow = "0 4px 0 #2b6e2b";
+                b.style.color = "white";
+            } else if (b === btn && !isCorrect) {
+                b.style.background = "#d9534f";
+                b.style.boxShadow = "0 4px 0 #9b2e2a";
+                b.style.color = "white";
+            }
+        });
+    }
+
+    function nextQuestion() {
+        if (!answerLock && currentIdx < activeList.length) {
+            feedbackDiv.innerHTML = "⚠️ ஒரு விதியைத் தேர்ந்தெடுக்கவும்! பெயரியலை ஆராயுங்கள்.";
+            feedbackDiv.style.background = "#ffefb9";
+            return;
+        }
+        if (currentIdx >= activeList.length) {
+            resetGame();
+            return;
+        }
+        currentIdx++;
+        loadQuestion();
+    }
+
+    function resetGame() {
+        activeList = shuffleArray([...questionBank]);
+        currentIdx = 0;
+        totalScore = 0;
+        currentStreak = 0;
+        answerLock = false;
+        updateUI();
+        loadQuestion();
+        feedbackDiv.innerHTML = "🔄 புதிய பெயரியல் பயிற்சி! விதிகளைப் பொருத்து! 💥";
+        feedbackDiv.style.background = "#fff1e0";
+        nextBtn.disabled = false;
+    }
+
+    // initial
+    activeList = shuffleArray([...questionBank]);
+    currentIdx = 0;
+    totalScore = 0;
+    currentStreak = 0;
+    answerLock = false;
+    updateUI();
+    loadQuestion();
+
+    nextBtn.addEventListener("click", nextQuestion);
+    resetBtn.addEventListener("click", resetGame);
+</script>
+</body>
+</html>
