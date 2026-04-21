@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>எச்சவியல் - GRAMMAR ARCADE | தொல்காப்பியம்</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at 10% 20%, #fef0df, #ffbc70);
+            font-family: 'Segoe UI', 'Poppins', 'Noto Sans Tamil', system-ui, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: bgFlow 8s infinite alternate;
+        }
+
+        @keyframes bgFlow {
+            0% { background: radial-gradient(circle at 10% 20%, #fef0df, #ffbc70); }
+            100% { background: radial-gradient(circle at 90% 80%, #ffefcf, #ffa84e); }
+        }
+
+        .game-card {
+            max-width: 880px;
+            width: 100%;
+            background: #fffdf7;
+            border-radius: 85px 85px 70px 70px;
+            box-shadow: 0 40px 50px rgba(0, 0, 0, 0.28), 0 0 0 12px #ffde59, 0 0 0 18px #e33e2b;
+            overflow: hidden;
+            transition: transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #e33e2b, #c41f1f);
+            padding: 24px 26px 20px 32px;
+            color: white;
+            text-shadow: 4px 4px 0 #881e1a;
+            border-bottom: 6px solid #ffcd4a;
+            position: relative;
+        }
+
+        .header::after {
+            content: "📚⚡";
+            position: absolute;
+            right: 20px;
+            top: -5px;
+            font-size: 65px;
+            opacity: 0.2;
+            pointer-events: none;
+            transform: rotate(10deg);
+        }
+
+        .header h1 {
+            font-size: 1.9rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            font-weight: 900;
+        }
+
+        .badge {
+            background: #ffde59;
+            padding: 6px 28px;
+            border-radius: 60px;
+            color: #b12a1a;
+            font-size: 1.2rem;
+            font-weight: bold;
+            box-shadow: inset 0 -3px 0 #c4a123;
+            animation: badgePulse 2s infinite;
+        }
+
+        @keyframes badgePulse {
+            0% { transform: scale(1); box-shadow: inset 0 -3px 0 #c4a123; }
+            50% { transform: scale(1.02); box-shadow: inset 0 -3px 0 #c4a123, 0 0 12px #ffde59; }
+            100% { transform: scale(1); }
+        }
+
+        .sub {
+            font-size: 0.68rem;
+            margin-top: 8px;
+            display: flex;
+            gap: 20px;
+            letter-spacing: 0.3px;
+        }
+
+        .stats {
+            background: #2c1a10;
+            color: #ffefcf;
+            display: flex;
+            justify-content: space-between;
+            padding: 14px 32px;
+            font-weight: bold;
+            font-size: 1.4rem;
+            border-bottom: 3px solid #ffaa44;
+        }
+
+        .score, .streak {
+            background: #00000077;
+            padding: 6px 28px;
+            border-radius: 60px;
+            backdrop-filter: blur(4px);
+        }
+
+        .streak {
+            background: #f77f00;
+            color: #2c1a10;
+            animation: streakGlow 1.5s infinite;
+        }
+
+        @keyframes streakGlow {
+            0% { box-shadow: 0 0 0 0 #ffb347; }
+            50% { box-shadow: 0 0 0 6px #ffb34799; }
+            100% { box-shadow: 0 0 0 0 #ffb347; }
+        }
+
+        .game-area {
+            padding: 28px 22px 25px;
+        }
+
+        .question-panel {
+            background: linear-gradient(145deg, #fff2e2, #ffe0c4);
+            border-radius: 75px;
+            padding: 28px 15px;
+            text-align: center;
+            box-shadow: 0 20px 30px rgba(0,0,0,0.12), inset 0 1px 4px white;
+            margin-bottom: 22px;
+        }
+
+        .tamil-phrase {
+            font-size: 1.6rem;
+            font-weight: 800;
+            font-family: 'Noto Sans Tamil', monospace;
+            background: white;
+            display: inline-block;
+            padding: 16px 30px;
+            border-radius: 110px;
+            box-shadow: 0 12px 0 #bb8b5c;
+            letter-spacing: 3px;
+            color: #3a2412;
+            transition: all 0.1s ease;
+            animation: gentleFloat 3s infinite ease;
+        }
+
+        @keyframes gentleFloat {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .question-hint {
+            font-size: 0.85rem;
+            margin-top: 18px;
+            background: #ffeaaf;
+            display: inline-block;
+            padding: 8px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            color: #b64926;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 14px;
+            margin: 22px 0 15px;
+        }
+
+        .opt-btn {
+            background: linear-gradient(120deg, #ffda7c, #ffcd5c);
+            border: none;
+            font-size: 0.85rem;
+            font-family: 'Noto Sans Tamil', monospace;
+            font-weight: bold;
+            padding: 12px 14px;
+            min-width: 160px;
+            border-radius: 70px;
+            color: #2f2418;
+            cursor: pointer;
+            box-shadow: 0 7px 0 #b47234;
+            transition: 0.07s linear;
+            animation: btnRise 0.35s ease-out;
+        }
+
+        @keyframes btnRise {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .opt-btn:active {
+            transform: translateY(5px);
+            box-shadow: 0 2px 0 #b47234;
+        }
+
+        .opt-btn:hover {
+            background: #ffea8a;
+            transform: scale(1.02);
+        }
+
+        .feedback {
+            text-align: center;
+            font-weight: bold;
+            font-size: 1rem;
+            margin: 12px 0;
+            padding: 14px;
+            border-radius: 70px;
+            background: #fff3e0;
+            transition: all 0.2s;
+        }
+
+        .next-btn {
+            background: linear-gradient(95deg, #2e9c5e, #248f52);
+            color: white;
+            border: none;
+            width: 85%;
+            padding: 15px;
+            font-size: 1.35rem;
+            font-weight: bold;
+            border-radius: 60px;
+            margin: 12px auto 10px;
+            display: block;
+            cursor: pointer;
+            box-shadow: 0 8px 0 #1a5a37;
+            transition: 0.07s linear;
+        }
+
+        .next-btn:active {
+            transform: translateY(5px);
+            box-shadow: 0 3px 0 #1a5a37;
+        }
+
+        .reset-btn {
+            background: linear-gradient(95deg, #f28444, #e56a2c);
+            box-shadow: 0 8px 0 #bd5727;
+            margin-bottom: 22px;
+            width: 65%;
+        }
+
+        .footer {
+            background: #f2e0c0;
+            text-align: center;
+            padding: 14px;
+            font-size: 0.58rem;
+            color: #8b5a2b;
+            border-top: 3px solid #ffd49f;
+            font-weight: 500;
+        }
+
+        @keyframes correctFlash {
+            0% { transform: scale(1); background: #ffbd71; box-shadow: 0 0 0 gold; }
+            80% { transform: scale(1.15); background: #ffa84d; box-shadow: 0 0 28px gold; }
+            100% { transform: scale(1); background: white; }
+        }
+        .correct-burst {
+            animation: correctFlash 0.4s ease-out;
+        }
+
+        @keyframes wrongShake {
+            0%,100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); background: #ffb4a2; }
+            75% { transform: translateX(8px); background: #ffb4a2; }
+        }
+        .wrong-shake {
+            animation: wrongShake 0.3s ease-in-out;
+        }
+
+        @media (max-width: 750px) {
+            .tamil-phrase { font-size: 1.2rem; padding: 10px 18px; letter-spacing: 2px; }
+            .opt-btn { font-size: 0.7rem; min-width: 135px; padding: 8px 6px; }
+            .stats { font-size: 1rem; padding: 12px 20px; }
+            .header h1 { font-size: 1.3rem; }
+            .score, .streak { padding: 4px 16px; }
+        }
+    </style>
+</head>
+<body>
+<div class="game-card">
+    <div class="header">
+        <h1>
+            <span class="badge">📚 எச்சவியல்</span>
+            <span>✨ GRAMMAR ARCADE</span>
+        </h1>
+        <div class="sub">📜 தொல்காப்பியம் · சொல்லதிகாரம் · எச்சவியல் · மொழி வகை & தொகைமொழி அதிரடி (67 நூற்பாக்கள்)</div>
+    </div>
+    <div class="stats">
+        <div class="score">🏆 மதிப்பெண்: <span id="scoreValue">0</span></div>
+        <div class="streak">🔥 தொடர்: <span id="streakValue">0</span></div>
+    </div>
+    <div class="game-area">
+        <div class="question-panel">
+            <div class="tamil-phrase" id="questionLetter">சொல் வகைகள்</div>
+            <div class="question-hint" id="questionHint">✨ எச்சவியல் விதிகளைக் கண்டுபிடி ✨</div>
+        </div>
+        <div class="options" id="optionsContainer"></div>
+        <div class="feedback" id="feedbackMsg">⚡ பதிலைத் தேர்ந்தெடு — எச்சவியல் விதிகளை வெல்லு ⚡</div>
+        <button class="next-btn" id="nextBtn">➡ அடுத்த கட்டம் 🎯</button>
+        <button class="next-btn reset-btn" id="resetBtn">🔄 புதிய ஆட்டம்</button>
+    </div>
+    <div class="footer">
+        🧠 தொல்காப்பியம் எச்சவியல் (1-67) · 4 சொல் வகைகள் (இயற்சொல், திரிசொல், திசைச்சொல், வடசொல்) · 4 மொழி புணர் இயல்புகள் (நிரல்நிறை, சுண்ணம், அடிமறி, மொழிமாற்று) · 6 தொகைமொழிகள் (வேற்றுமை, உவமம், வினையின், பண்பின், உம்மை, அன்மொழி) · எச்ச வகைகள் · ஈ/தா/கொடு (இரவுக் கிளவி)
+    </div>
+</div>
+
+<script>
+    // --------------------------------------------------------------
+    // எச்சவியல் (தொல்காப்பியம் சொல்லதிகாரம்) 
+    // முக்கிய விதிகள் (1-67 சுருக்கம்):
+    // 1. 4 சொல் வகைகள்: இயற்சொல், திரிசொல், திசைச்சொல், வடசொல் (1)
+    // 2. இயற்சொல்: செந்தமிழ் நிலத்து வழக்கு (2)
+    // 3. திரிசொல்: ஒரு பொருள் குறித்த வேறு சொல் / வேறு பொருள் குறித்த ஒரு சொல் (3)
+    // 4. திசைச்சொல்: பன்னிரு நிலத்தும் தம் குறிப்பு (4)
+    // 5. வடசொல்: வட எழுத்து ஒரீஇ, எழுத்தொடு புணர்ந்த சொல் (5)
+    // 6. 4 மொழி புணர் இயல்பு: நிரல்நிறை, சுண்ணம், அடிமறி, மொழிமாற்று (8)
+    // 7. 6 தொகைமொழிகள்: வேற்றுமை, உவமம், வினையின், பண்பின், உம்மை, அன்மொழி (16)
+    // 8. ஈ/தா/கொடு: இரவின் கிளவி; ஈ(இழிந்தோன்), தா(ஒப்போன்), கொடு(உயர்ந்தோன்) (48-51)
+    // --------------------------------------------------------------
+
+    const questionBank = [
+        // 1. சொல் வகைகள் (1)
+        { display: "தொல்காப்பியம் கூறும் சொல் வகைகள் (எத்தனை?)", correct: "4 (இயற்சொல், திரிசொல், திசைச்சொல், வடசொல்)", options: ["4", "3", "5", "6"], hint: "இயற்சொல் திரிசொல் திசைச்சொல் வடசொல் என்று அனைத்தே செய்யுள் ஈட்டச் சொல்லே (1)" },
+        // 2. இயற்சொல் (2)
+        { display: "இயற்சொல்லின் இயல்பு", correct: "செந்தமிழ் நிலத்து வழக்கொடு சிவணி, தம் பொருள் வழாமை இசைக்கும்", options: ["செந்தமிழ் நிலத்து வழக்கொடு சிவணி", "பன்னிரு நிலத்தும் தம் குறிப்பு", "வட எழுத்து ஒரீஇ எழுத்தொடு புணர்ந்தது", "ஒரு பொருள் குறித்த வேறு சொல்"], hint: "இயற்சொல்தாமே செந்தமிழ் நிலத்து வழக்கொடு சிவணி தம் பொருள் வழாமை இசைக்கும் சொல்லே (2)" },
+        // 3. திரிசொல் (3)
+        { display: "திரிசொல்லின் வகைகள்", correct: "ஒரு பொருள் குறித்த வேறு சொல் / வேறு பொருள் குறித்த ஒரு சொல்", options: ["ஒரு பொருள் குறித்த வேறு சொல் / வேறு பொருள் குறித்த ஒரு சொல்", "செந்தமிழ் நிலத்து வழக்கு", "பன்னிரு நிலத்து வழக்கு", "வடசொல்"], hint: "ஒரு பொருள் குறித்த வேறு சொல் ஆகியும் வேறு பொருள் குறித்த ஒரு சொல் ஆகியும் இரு பாற்று என்ப திரிசொல் கிளவி (3)" },
+        // 4. திசைச்சொல் (4)
+        { display: "திசைச்சொல்லின் இயல்பு", correct: "பன்னிரு நிலத்தும் தம் குறிப்பினவே", options: ["பன்னிரு நிலத்தும் தம் குறிப்பினவே", "செந்தமிழ் நிலத்து வழக்கு", "வட எழுத்து ஒரீஇ எழுத்தொடு புணர்ந்தது", "ஒரு பொருள் குறித்த வேறு சொல்"], hint: "செந்தமிழ் சேர்ந்த பன்னிரு நிலத்தும் தம் குறிப்பினவே திசைச்சொல் கிளவி (4)" },
+        // 5. வடசொல் (5)
+        { display: "வடசொல்லின் இயல்பு", correct: "வட எழுத்து ஒரீஇ, எழுத்தொடு புணர்ந்த சொல்", options: ["வட எழுத்து ஒரீஇ, எழுத்தொடு புணர்ந்த சொல்", "செந்தமிழ் நிலத்து வழக்கு", "பன்னிரு நிலத்து வழக்கு", "ஒரு பொருள் குறித்த வேறு சொல்"], hint: "வடசொல் கிளவி வட எழுத்து ஒரீஇ எழுத்தொடு புணர்ந்த சொல் ஆகும்மே (5)" },
+        // 6. மொழி புணர் இயல்புகள் (8)
+        { display: "மொழி புணர் இயல்புகள் (எத்தனை?)", correct: "4 (நிரல்நிறை, சுண்ணம், அடிமறி, மொழிமாற்று)", options: ["4", "3", "5", "6"], hint: "நிரல்நிறை சுண்ணம் அடிமறி மொழிமாற்று அவை நான்கு என்ப மொழி புணர் இயல்பே (8)" },
+        // 7. தொகைமொழிகள் (16)
+        { display: "தொகைமொழி வகைகள் (எத்தனை?)", correct: "6 (வேற்றுமை, உவமம், வினையின், பண்பின், உம்மை, அன்மொழி)", options: ["6", "4", "5", "7"], hint: "வேற்றுமைத்தொகையே உவமத்தொகையே வினையின்தொகையே பண்பின்தொகையே உம்மைத்தொகையே அன்மொழித்தொகை என்று அவ் ஆறு என்ப தொகைமொழி நிலையே (16)" },
+        // 8. நிரல்நிறை (9)
+        { display: "நிரல்நிறையின் இயல்பு", correct: "சொல் வேறு நிலைஇ, பொருள் வேறு நிலையல்", options: ["சொல் வேறு நிலைஇ, பொருள் வேறு நிலையல்", "அடி நிலை திரிதல்", "சொல் நிலை மாற்றி பொருள் எதிர் இயைய", "ஈர் அடி எண் சீர்"], hint: "நிரல்நிறைதானே வினையினும் பெயரினும் நினையத் தோன்றி சொல் வேறு நிலைஇ பொருள் வேறு நிலையல் (9)" },
+        // 9. சுண்ணம் (10)
+        { display: "சுண்ணத்தின் இயல்பு", correct: "பட்டாங்கு அமைந்த ஈர் அடி எண் சீர்", options: ["பட்டாங்கு அமைந்த ஈர் அடி எண் சீர்", "சொல் வேறு நிலைஇ பொருள் வேறு நிலையல்", "அடி நிலை திரிதல்", "சொல் நிலை மாற்றி பொருள் எதிர் இயைய"], hint: "சுண்ணம்தானே பட்டாங்கு அமைந்த ஈர் அடி எண் சீர் (10)" },
+        // 10. அடிமறி (11)
+        { display: "அடிமறியின் இயல்பு", correct: "அடி நிலை திரிந்து, சீர் நிலை திரியாது தடுமாறும்", options: ["அடி நிலை திரிந்து, சீர் நிலை திரியாது தடுமாறும்", "சொல் வேறு நிலைஇ பொருள் வேறு நிலையல்", "ஈர் அடி எண் சீர்", "சொல் நிலை மாற்றி பொருள் எதிர் இயைய"], hint: "அடிமறிச் செய்தி அடி நிலை திரிந்து சீர் நிலை திரியாது தடுமாறும்மே (11)" },
+        // 11. மொழிமாற்று (13)
+        { display: "மொழிமாற்றின் இயல்பு", correct: "சொல் நிலை மாற்றி, பொருள் எதிர் இயைய", options: ["சொல் நிலை மாற்றி, பொருள் எதிர் இயைய", "சொல் வேறு நிலைஇ பொருள் வேறு நிலையல்", "அடி நிலை திரிதல்", "ஈர் அடி எண் சீர்"], hint: "மொழிமாற்று இயற்கை சொல் நிலை மாற்றி பொருள் எதிர் இயைய (13)" },
+        // 12. ஈ, தா, கொடு (48-51)
+        { display: "ஈ, தா, கொடு — இவற்றின் பொருள் (இரவுக் கிளவி)", correct: "ஈ(இழிந்தோன்), தா(ஒப்போன்), கொடு(உயர்ந்தோன்)", options: ["ஈ(இழிந்தோன்), தா(ஒப்போன்), கொடு(உயர்ந்தோன்)", "ஈ(உயர்ந்தோன்), தா(இழிந்தோன்), கொடு(ஒப்போன்)", "அனைத்தும் ஒப்போன்", "இரவில் மட்டும்"], hint: "ஈ என் கிளவி இழிந்தோன் கூற்றே. தா என் கிளவி ஒப்போன் கூற்றே. கொடு என் கிளவி உயர்ந்தோன் கூற்றே (49-51)" },
+        // 13. ஒரு சொல் அடுக்கு (15)
+        { display: "ஒரு சொல் அடுக்கின் வகைகள்", correct: "இசைநிறை, அசைநிலை, பொருளொடு புணர்தல்", options: ["இசைநிறை, அசைநிலை, பொருளொடு புணர்தல்", "நிரல்நிறை, சுண்ணம், அடிமறி", "வேற்றுமை, உவமம், வினையின்", "பிரிநிலை, ஒழியிசை, எதிர்மறை"], hint: "இசைநிறை அசைநிலை பொருளொடு புணர்தல் என்று அவை மூன்று என்ப ஒரு சொல் அடுக்கே (15)" },
+        // 14. எச்ச வகைகள் (34)
+        { display: "எச்ச வகைகள் (எத்தனை?)", correct: "5 (பிரிநிலை, ஒழியிசை, எதிர்மறை, உம்மை, குறிப்பு/இசை)", options: ["5", "4", "6", "3"], hint: "பிரிநிலை வினையே பெயரே ஒழியிசை எதிர்மறை உம்மை எனவே சொல்லே குறிப்பே இசையே ஆயீர் ஐந்தும் (34)" },
+        // 15. பெயரெஞ்சுகிளவி (37)
+        { display: "பெயரெஞ்சுகிளவி", correct: "பெயரொடு முடியும்", options: ["பெயரொடு முடியும்", "வினையொடு முடியும்", "குறிப்பொடு முடியும்", "இசையொடு முடியும்"], hint: "பெயரெஞ்சுகிளவி பெயரொடு முடிமே (37)" },
+        // 16. வினையெஞ்சுகிளவி (36)
+        { display: "வினையெஞ்சுகிளவி", correct: "வினையும் குறிப்பும் நினையத் தோன்றிய முடிபு", options: ["வினையும் குறிப்பும் நினையத் தோன்றிய முடிபு", "பெயரொடு முடியும்", "ஒழியிசை முடிபு", "எதிர்மறை முடிபு"], hint: "வினையெஞ்சுகிளவிக்கு வினையும் குறிப்பும் நினையத் தோன்றிய முடிபு ஆகும்மே (36)" }
+    ];
+
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let activeList = [];
+    let currentIdx = 0;
+    let totalScore = 0;
+    let currentStreak = 0;
+    let answerLock = false;
+    let currentQ = null;
+
+    const phraseEl = document.getElementById("questionLetter");
+    const hintEl = document.getElementById("questionHint");
+    const optionsDiv = document.getElementById("optionsContainer");
+    const feedbackDiv = document.getElementById("feedbackMsg");
+    const scoreSpan = document.getElementById("scoreValue");
+    const streakSpan = document.getElementById("streakValue");
+    const nextBtn = document.getElementById("nextBtn");
+    const resetBtn = document.getElementById("resetBtn");
+
+    function updateUI() {
+        scoreSpan.innerText = totalScore;
+        streakSpan.innerText = currentStreak;
+    }
+
+    function animateCorrect(el) {
+        el.classList.add("correct-burst");
+        setTimeout(() => el.classList.remove("correct-burst"), 450);
+    }
+
+    function animateWrong(el) {
+        el.classList.add("wrong-shake");
+        setTimeout(() => el.classList.remove("wrong-shake"), 350);
+    }
+
+    function loadQuestion() {
+        if (currentIdx >= activeList.length) {
+            phraseEl.innerText = "🏆📚";
+            hintEl.innerText = "எச்சவியல் மாஸ்டர்! வெற்றி!";
+            optionsDiv.innerHTML = '<button class="opt-btn" disabled>✨ ஆட்டம் முடிந்தது ✨</button>';
+            feedbackDiv.innerHTML = "🎉 அருமை! எச்சவியல் விதிகள் அனைத்தும் கற்றுக்கொண்டீர்கள்! தொல்காப்பிய சொல்லதிகாரம் நிறைவு! 🎉";
+            nextBtn.disabled = true;
+            nextBtn.style.opacity = "0.6";
+            return;
+        }
+        nextBtn.disabled = false;
+        nextBtn.style.opacity = "1";
+        answerLock = false;
+        currentQ = activeList[currentIdx];
+        phraseEl.innerText = currentQ.display;
+        hintEl.innerText = currentQ.hint || "✨ விதியைத் தேர்ந்தெடு ✨";
+        let opts = [...new Set([...currentQ.options, currentQ.correct])];
+        const shuffled = shuffleArray(opts);
+        optionsDiv.innerHTML = "";
+        shuffled.forEach(opt => {
+            const btn = document.createElement("button");
+            btn.innerText = opt;
+            btn.classList.add("opt-btn");
+            btn.addEventListener("click", () => handleAnswer(opt, btn));
+            optionsDiv.appendChild(btn);
+        });
+        feedbackDiv.innerHTML = "📚 எந்த விதி பொருந்தும்? எச்சவியலை ஆராய்!";
+        feedbackDiv.style.background = "#fff1e0";
+        feedbackDiv.style.color = "#b64a1a";
+    }
+
+    function handleAnswer(selected, btn) {
+        if (answerLock) {
+            feedbackDiv.innerHTML = "✅ ஏற்கனவே விடை அளித்துவிட்டீர்கள்! அடுத்ததற்குச் செல்.";
+            return;
+        }
+        const isCorrect = (selected === currentQ.correct);
+        answerLock = true;
+        if (isCorrect) {
+            let addPoints = 10;
+            if (currentStreak >= 5) addPoints = 22;
+            else if (currentStreak >= 3) addPoints = 15;
+            totalScore += addPoints;
+            currentStreak++;
+            feedbackDiv.innerHTML = `✅ சரியான விதி! +${addPoints} புள்ளிகள்! 🔥 தொடர் ${currentStreak}`;
+            feedbackDiv.style.background = "#cfe9d8";
+            feedbackDiv.style.color = "#166534";
+            animateCorrect(phraseEl);
+        } else {
+            currentStreak = 0;
+            feedbackDiv.innerHTML = `❌ தவறு! சரியான விதி: "${currentQ.correct}". எச்சவியல் நூலை மீண்டும் பார்!`;
+            feedbackDiv.style.background = "#ffded5";
+            feedbackDiv.style.color = "#b33a1c";
+            animateWrong(phraseEl);
+        }
+        updateUI();
+        const allBtns = document.querySelectorAll(".opt-btn");
+        allBtns.forEach(b => {
+            b.disabled = true;
+            if (b.innerText === currentQ.correct) {
+                b.style.background = "#5fa04f";
+                b.style.boxShadow = "0 4px 0 #2b6e2b";
+                b.style.color = "white";
+            } else if (b === btn && !isCorrect) {
+                b.style.background = "#d9534f";
+                b.style.boxShadow = "0 4px 0 #9b2e2a";
+                b.style.color = "white";
+            }
+        });
+    }
+
+    function nextQuestion() {
+        if (!answerLock && currentIdx < activeList.length) {
+            feedbackDiv.innerHTML = "⚠️ ஒரு விதியைத் தேர்ந்தெடுக்கவும்! எச்சவியலை ஆராயுங்கள்.";
+            feedbackDiv.style.background = "#ffefb9";
+            return;
+        }
+        if (currentIdx >= activeList.length) {
+            resetGame();
+            return;
+        }
+        currentIdx++;
+        loadQuestion();
+    }
+
+    function resetGame() {
+        activeList = shuffleArray([...questionBank]);
+        currentIdx = 0;
+        totalScore = 0;
+        currentStreak = 0;
+        answerLock = false;
+        updateUI();
+        loadQuestion();
+        feedbackDiv.innerHTML = "🔄 புதிய எச்சவியல் பயிற்சி! விதிகளைப் பொருத்து! 💥";
+        feedbackDiv.style.background = "#fff1e0";
+        nextBtn.disabled = false;
+    }
+
+    // initial
+    activeList = shuffleArray([...questionBank]);
+    currentIdx = 0;
+    totalScore = 0;
+    currentStreak = 0;
+    answerLock = false;
+    updateUI();
+    loadQuestion();
+
+    nextBtn.addEventListener("click", nextQuestion);
+    resetBtn.addEventListener("click", resetGame);
+</script>
+</body>
+</html>
